@@ -17,11 +17,11 @@ const db = new Sequelize(
   process.env.DB_USER,
   process.env.DB_PASS,
   {
-    host: 'localhost',
-    name: 'groupomania',
-    dialect: 'mysql',
-    username: 'root',
-    password: 'Adelwa91480',
+    host: '',
+    name: '',
+    dialect: '',
+    username: '',
+    password: '',
   }
 );
 
