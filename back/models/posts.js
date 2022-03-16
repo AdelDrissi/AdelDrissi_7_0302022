@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('groupomania', 'root', 'Adelwa91480', {
+const sequelize = new Sequelize('groupomania', 'root', 'Groupomania', {
   dialect: 'mysql',
 });
 // Indicating the format of POSTS model table //
@@ -26,4 +26,12 @@ Posts.sync()
     console.log('Error syning the table and model !');
   });
 
-
+Posts.associate = (models) => {
+  Posts.hasMany(models.Comments, {
+    onDelete: 'cascade',
+  });
+Posts.hasMany(models.Likes, {
+    onDelete: 'cascade',
+  });
+};
+module.exports = Posts;

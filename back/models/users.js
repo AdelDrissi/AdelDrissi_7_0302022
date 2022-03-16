@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('groupomania', 'root', 'Adelwa91480', {
+const sequelize = new Sequelize('groupomania', 'root', 'Groupomania', {
   dialect: 'mysql',
 });
 // Indicating the format of USERS model table //
@@ -12,8 +12,11 @@ const Users = sequelize.define('Users', {
   },
   email: {
     type: Sequelize.DataTypes.STRING,
-    allowNull: false,
     unique: true,
+  },
+  image: {
+    type: Sequelize.DataTypes.STRING,
+    allowNull: false,
   },
   password: {
     type: Sequelize.DataTypes.STRING,
@@ -33,3 +36,13 @@ Users.sync()
     console.log('Error syning the table and model !');
   });
 
+Users.associate = (models) => {
+  Users.hasMany(models.Posts, {
+    onDelete: 'cascade',
+  });
+  Users.hasMany(models.Likes, {
+    onDelete: 'cascade',
+  });
+};
+
+module.exports = Users;
