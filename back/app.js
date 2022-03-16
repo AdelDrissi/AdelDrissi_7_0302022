@@ -2,7 +2,6 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const path = require('path');
 
 // Import routers //
 const authRouter = require('./routes/authentication');
@@ -16,20 +15,11 @@ const app = express();
 app.use(cors());
 app.use(helmet());
 
-app.get('/', async function (req, res) {
-  try {
-    await sequelize.authenticate();
-    console.log('Connection has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
+//Call routes//
+app.use('/api/users', usersRouter);
+app.use('/api/sign', authRouter);
+app.use('/api/posts', postsRouter);
+app.use('/api/likes', likesRouter);
+app.use('/api/comments', commentsRouter);
 
-    //Call routes//
-    app.use('/api/users', usersRouter);
-    app.use('/api/sign', authRouter);
-    app.use('/api/posts', postsRouter);
-    app.use('/api/likes', likesRouter);
-    app.use('/api/comments', commentsRouter);
-
-    module.exports = app;
-  }
-});
+module.exports = app;

@@ -1,9 +1,9 @@
 // Import the necessary dependencies //
 const express = require('express');
 const router = express.Router();
+const authController = require('../controllers/authentication')
 
-// POST request to the post route //
-router.post('/', Ctrl.createPost);
+router.post('/',);
 
 // GET requests to the post route //
 router.get('/', Ctrl.readAllPosts);
@@ -16,4 +16,4 @@ router.put('/update/:id', Ctrl.updatePost);
 router.delete('/delete/:id', Ctrl.deletePost);
 
 // Export the router //
-module.exports = router;
+http: module.exports = router;
