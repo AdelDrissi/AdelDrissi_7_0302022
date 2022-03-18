@@ -6,13 +6,12 @@ const dataBase = require('./models/likes');
 const data = require('./models/users');
 const posts = require('./models/posts');
 const Comments = require('./models/comments');
-const  userRoutes = require('./routes/users')
+const userRoutes = require('./routes/users');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-
-app.use('/api/user' , userRoutes)
+app.use('/api/user', userRoutes);
 
 // Import dotenv //
 const dotenv = require('dotenv');

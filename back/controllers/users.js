@@ -5,7 +5,7 @@ exports.readUser = async (req, res) => {
   try {
     const id = req.params.id;
     await Users.findByPk(id, {
-      attributes: ['username', 'email', 'biography', 'image', 'isAdmin'],
+      attributes: ['username', 'email', 'biography', 'password', 'image'],
     }).then((user) => {
       if (!user) {
         res.status(404).json({ error: 'User ID ' + id + ' not found.' });
@@ -43,4 +43,10 @@ exports.updateUser = async (req, res) => {
   } catch (error) {
     res.status(500).send({ error: 'An error has occurred. ' + error });
   }
+};
+exports.deleteUser = (req, res) => {
+  const id = req.params.id;
+  Users.destroy({ where: { id: id } })
+    .then(() => res.status(200).json({ message: 'User deleted.' }))
+    .catch((error) => res.status(400).json({ error }));
 };

@@ -11,7 +11,7 @@ const likesRouter = require('./routes/likes');
 const commentsRouter = require('./routes/comments');
 
 // Call the necessary dependencies //
-const app = express();
+const app = express.json();
 app.use(cors());
 app.use(helmet());
 

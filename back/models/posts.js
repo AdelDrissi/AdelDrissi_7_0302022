@@ -26,12 +26,4 @@ Posts.sync()
     console.log('Error syning the table and model !');
   });
 
-Posts.associate = (models) => {
-  Posts.hasMany(models.Comments, {
-    onDelete: 'cascade',
-  });
-Posts.hasMany(models.Likes, {
-    onDelete: 'cascade',
-  });
-};
 module.exports = Posts;

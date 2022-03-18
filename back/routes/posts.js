@@ -16,4 +16,4 @@ router.put('/update/:id', Ctrl.updatePost);
 router.delete('/delete/:id', Ctrl.deletePost);
 
 // Export the router //
-http: module.exports = router;
+ module.exports = router;
