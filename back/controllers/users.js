@@ -22,17 +22,13 @@ exports.updateUser = async (req, res) => {
     const { oldPassword, newPassword } = req.body;
     let image;
     if ((oldPassword, newPassword)) {
-      const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,18}$/;
+      const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,120}$/;
       if (!PASSWORD_REGEX.test(newPassword)) {
         return res.status(400).json({
           error:
             'Password must be 6 - 18 characters long, must include at least one uppercase letter, one lowercase letter and one number',
         });
       }
-      await Users.findByPk(id);
-      bcrypt.hash(newPassword, 10).then((hash) => {
-        Users.update({ password: hash }, { where: { id: id } });
-      });
     }
 
     if (req.file) {

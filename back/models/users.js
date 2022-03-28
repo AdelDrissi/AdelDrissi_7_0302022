@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-
+const bcrypt = require('bcrypt');
 const sequelize = new Sequelize('groupomania', 'root', 'Groupomania', {
   dialect: 'mysql',
 });
@@ -17,7 +17,7 @@ const Users = sequelize.define('Users', {
   image: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    defaultValue: '',
+    defaultValue: 'http://localhost:4000/image/default_user.png',
   },
   password: {
     type: Sequelize.DataTypes.STRING,
@@ -28,7 +28,11 @@ const Users = sequelize.define('Users', {
     allowNull: false,
   },
 });
-
+// Users.pre('save', async function (next) {
+//   const salt = await bcrypt.genSalt();
+//   this.password = await bcrypt.hash(this.password, salt);
+//   next();
+// });
 Users.sync()
   .then((data) => {
     console.log('Table and model synced successfully !');
@@ -37,4 +41,4 @@ Users.sync()
     console.log('Error syning the table and model !');
   });
 
-module.exports = Users
+module.exports = Users;
