@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 
 
 module.exports.signUp = async (req,) => {
-   console.log(req.body);
+  console.log(req.body)
   const { username, email, password, biography } = req.body;
   const userCreated = await Users.create({
       username,
@@ -82,7 +82,7 @@ module.exports.signUp = async (req,) => {
 exports.signIn = async (req,res) => {
   const { email, password } = req.body;
   try {
-    const Users = await UserModel.login(email, password);
+    const Users = await Users.login(email, password);
   } catch (err) {
     res.status(200).json(err);
   }
