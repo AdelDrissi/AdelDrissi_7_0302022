@@ -1,4 +1,4 @@
-const { Comments } = require('../models/comments');
+const  Comments = require('../models/comments');
 
 // Controllers (arranged in the order following the C.R.U.D) //
 
