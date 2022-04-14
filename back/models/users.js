@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 const bcrypt = require('bcrypt');
-const sequelize = new Sequelize('groupomania', 'root', 'Groupomania', {
+const sequelize = new Sequelize('groupomania', 'root', 'Adelwa91480', {
   dialect: 'mysql',
 });
 // Indicating the format of USERS model table //
@@ -28,11 +28,6 @@ const Users = sequelize.define('Users', {
     allowNull: false,
   },
 });
-// Users.pre('save', async function (next) {
-//   const salt = await bcrypt.genSalt();
-//   this.password = await bcrypt.hash(this.password, salt);
-//   next();
-// });
 Users.sync()
   .then((data) => {
     console.log('Table and model synced successfully !');

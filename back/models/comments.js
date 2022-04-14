@@ -1,6 +1,6 @@
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('groupomania', 'root', 'Groupomania', {
+const sequelize = new Sequelize('groupomania', 'root', 'Adelwa91480', {
   dialect: 'mysql',
 });
 // Indicating the format of COMMENTS model table //

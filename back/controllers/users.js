@@ -1,5 +1,6 @@
 const Users = require('../models/users');
 const bcrypt = require('bcrypt');
+const res = require('express/lib/response');
 
 exports.readUser = async (req, res) => {
   try {
@@ -21,14 +22,18 @@ exports.updateUser = async (req, res) => {
     const id = req.params.id;
     const { oldPassword, newPassword } = req.body;
     let image;
-    if ((oldPassword, newPassword)) {
-      const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,120}$/;
+    if (oldPassword && newPassword) {
+      const PASSWORD_REGEX = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,18}$/;
       if (!PASSWORD_REGEX.test(newPassword)) {
         return res.status(400).json({
           error:
             'Password must be 6 - 18 characters long, must include at least one uppercase letter, one lowercase letter and one number',
         });
       }
+    } else {
+      res.status(400).json({
+        error: 'il manque plusieurs mot de passe',
+      });
     }
 
     if (req.file) {
@@ -40,9 +45,10 @@ exports.updateUser = async (req, res) => {
     res.status(500).send({ error: 'An error has occurred. ' + error });
   }
 };
-exports.deleteUser = (req, res) => {
+exports.deleteUser = async (req, res) => {
   const id = req.params.id;
   Users.destroy({ where: { id: id } })
     .then(() => res.status(200).json({ message: 'User deleted.' }))
     .catch((error) => res.status(400).json({ error }));
 };
+

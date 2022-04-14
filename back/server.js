@@ -31,7 +31,7 @@ const db = new Sequelize(
     name: 'groupomania',
     dialect: 'mysql',
     username: 'root',
-    password: 'groupomania',
+    password: 'Adelwa91480',
   }
 );
 db.authenticate()
