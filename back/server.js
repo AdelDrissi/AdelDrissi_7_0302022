@@ -1,6 +1,5 @@
 //IMPORT PACKAGES
 const express = require('express');
-const bodyParser = require('body-parser');
 const app = express();
 const dataBase = require('./models/likes');
 const data = require('./models/users');
@@ -8,9 +7,10 @@ const posts = require('./models/posts');
 const Comments = require('./models/comments');
 const userRoutes = require('./routes/users');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
+const authRouter = require('./routes/authentication');
+app.use('/api/sign', authRouter);
 app.use('/api/user', userRoutes);
 
 // Import dotenv //
@@ -41,3 +41,5 @@ db.authenticate()
   .catch((err) => {
     console.error('Unable to connect to the database:', err);
   });
+
+  
