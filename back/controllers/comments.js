@@ -1,5 +1,5 @@
-const  Comments = require('../models/comments');
-
+// const Comments = require('../models/comments');
+const { Comments } = require('../models/modelss');
 // Controllers (arranged in the order following the C.R.U.D) //
 
 // If comment is equal to null or if there is no content in the resquest    //
@@ -11,10 +11,16 @@ exports.createComment = async (req, res) => {
   if (req.body.comment === null || !req.body.comment) {
     res.status(400).json({ message: 'Comment is required.' });
   } else {
-    const comment = req.body;
-    const username = req.user.username;
-    comment.username = username;
-    await Comments.create(comment)
+    const comment = req.body.comment;
+    const username = req.body.username;
+    const content = req.body.content;
+    const CommentsId = req.body.comment.id;
+    Comments.create({
+      username: username,
+      comment: comment,
+      content: content,
+      CommentsId: CommentsId,
+    })
       .then((comment) => {
         res
           .status(201)
@@ -27,19 +33,21 @@ exports.createComment = async (req, res) => {
 };
 
 exports.readComment = async (req, res) => {
-  const postId = req.params.postId;
-  const comments = await Comments.findAll({ where: { PostId: postId } });
+  const CommentsId = req.params.id;
+  const comments = await Comments.findOne({
+    where: { CommentsId: CommentsId  },
+  });
   res.status(200).json(comments);
 };
 
-exports.updateComment = (req, res) => {
-  const commentId = req.params.commentId;
-  await Comments.findOne({ where: { id: commentId } })
+exports.updateComment = async (req, res) => {
+  const CommentsId = req.params.id;
+  Comments.findOne({ where: { CommentsId: CommentsId } })
     .then(() => {
-      Comments.update({ ...req.body }, { where: { id: commentId } });
+      Comments.update({ ...req.body }, { where: { CommentsId: CommentsId } });
       res
         .status(200)
-        .json({ message: 'Comment ID ' + id + ' has been updated.' });
+        .json({ message: 'Comment ID ' + CommentsId + ' has been updated.' });
     })
     .catch(() => {
       res.status(400).json({ error: 'An error has occurred. ' });
@@ -51,12 +59,12 @@ exports.updateComment = (req, res) => {
 // Return status 200 and the confirmation message                           //
 // If an error occurs, catch it and return status 400 and the error message //
 exports.deleteComment = async (req, res) => {
-  const commentId = req.params.commentId;
-  await Comments.destroy({ where: { id: commentId } })
+  const CommentsId = req.params.id;
+  Comments.destroy({ where: { CommentsId: CommentsId } })
     .then(() => {
       res
         .status(200)
-        .json({ message: 'Comment ID ' + commentId + ' has been deleted.' });
+        .json({ message: 'Comment ID ' + CommentsId + ' has been deleted.' });
     })
     .catch((error) => {
       res.status(400).json({ error: 'An error has occurred. ' + error });

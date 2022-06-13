@@ -2,19 +2,42 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
+const sequelize = require('./Db/config');
+require('./models/modelss');
 
-// Import routers //
-const authRouter = require('./routes/authentication');
-const usersRouter = require('./routes/users');
-const postsRouter = require('./routes/posts');
+// Connection to the database
+async function connectDB() {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection has been established successfully.');
+  } catch (err) {
+    console.error('Unable to connect to the database:', err);
+  }
+}
+connectDB();
+
+async function synchroDb() {
+  try {
+    await sequelize.sync({ alter: true });
+    console.log('all models were synchronized successfully.');
+  } catch (err) {
+    console.error('Unable to synchronize with database:', err);
+  }
+}
+synchroDb();
+const userRouter = require('./routes/users');
 const likesRouter = require('./routes/likes');
+const postsRouter = require('./routes/posts');
 const commentsRouter = require('./routes/comments');
+const authRouter = require('./routes/authentication');
+const req = require('express/lib/request');
 
 // Call the necessary dependencies //
 const app = express();
 app.use(express.json());
-// app.use(cors());
-// app.use(helmet());
+app.use(cors());
+app.use(helmet());
+
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader(
@@ -29,10 +52,10 @@ app.use((req, res, next) => {
 });
 
 //Call routes//
-app.use('/api/users', usersRouter);
+app.use('/api/user', userRouter);
 app.use('/api/sign', authRouter);
 app.use('/api/posts', postsRouter);
 app.use('/api/likes', likesRouter);
-app.use('/api/comment', commentsRouter);
+app.use('/api/comments', commentsRouter);
 
 module.exports = app;

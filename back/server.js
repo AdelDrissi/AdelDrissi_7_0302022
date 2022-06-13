@@ -1,45 +1,50 @@
-//IMPORT PACKAGES
-const express = require('express');
-const app = express();
-const dataBase = require('./models/likes');
-const data = require('./models/users');
-const posts = require('./models/posts');
-const Comments = require('./models/comments');
-const userRoutes = require('./routes/users');
+require('dotenv').config();
+const http = require('http');
+const app = require('./app');
 
-app.use(express.json());
+const normalizePort = (val) => {
+  const port = parseInt(val, 10);
 
-const authRouter = require('./routes/authentication');
-app.use('/api/sign', authRouter);
-app.use('/api/user', userRoutes);
+  if (isNaN(port)) {
+    return val;
+  }
+  if (port >= 0) {
+    return port;
+  }
+  return false;
+};
 
-// Import dotenv //
-const dotenv = require('dotenv');
-dotenv.config();
-app.listen(4000, () => {
-  console.log('listening on port 4000');
+const port = normalizePort(process.env.PORT || '4000');
+app.set('port', port);
+
+const errorHandler = (error) => {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+  const address = server.address();
+  const bind =
+    typeof address === 'string' ? 'pipe ' + address : 'port: ' + port;
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges.');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use.');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+};
+
+const server = http.createServer(app);
+
+server.on('error', errorHandler);
+server.on('listening', () => {
+  const address = server.address();
+  const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
+  console.log('Listening on ' + bind);
 });
 
-const { Sequelize } = require('sequelize');
-
-const db = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS,
-  {
-    host: 'localhost',
-    name: 'groupomania',
-    dialect: 'mysql',
-    username: 'root',
-    password: 'Adelwa91480',
-  }
-);
-db.authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch((err) => {
-    console.error('Unable to connect to the database:', err);
-  });
-
-  
+server.listen(port);

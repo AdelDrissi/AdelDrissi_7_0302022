@@ -2,14 +2,15 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authentication');
 const Ctrl = require('../controllers/users');
-// const upload = require('../middlewares/multer')
+const upload = require('../middlewares/multer');
+
 
 // GET requests to the users route //
-router.get('/:id', Ctrl.readUser);
+router.get('/read/:id', Ctrl.readUser);
 // POST requests to the users route //
 router.post('/register', authController.signUp);
 // PUT requests to the users route //
-router.put('/update/:id', Ctrl.updateUser);
+router.put('/update/:id', upload.single('image'), Ctrl.updateUser);
 // DELETE requests to the users route //
 router.delete('/delete/:id', Ctrl.deleteUser);
 
