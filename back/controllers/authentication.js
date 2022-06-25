@@ -2,8 +2,8 @@ const bcrypt = require('bcrypt');
 const { sign } = require('jsonwebtoken');
 const { Users } = require('../models/modelss');
 
+
 exports.signUp = async (req, res) => {
-  console.log(req.body);
   const { username, email, image, password, biography } = req.body;
   const userCreated = await Users.create({
     username,
@@ -19,12 +19,12 @@ exports.signUp = async (req, res) => {
     return res.status(500).json({ error: 'erreur' });
   }
 };
-exports.signIn = async (req, res) => {
+exports.signIn =  (req, res) => {
   const { email, password } = req.body;
   if (email == null || password == null) {
     return res.status(400).json({ error: 'Missing parameters.' });
   }
-  await Users.findOne({ where: { email: email } })
+   Users.findOne({ where: { email: email } })
     .then((user) => {
       if (user) {
         bcrypt.compare(password, user.password).then((match) => {
@@ -58,4 +58,12 @@ exports.signIn = async (req, res) => {
     .catch((error) => {
       return res.status(500).json({ error: 'An error has occurred. ' + error });
     });
+};
+
+exports.auth = (req, res) => {
+  try {
+    return res.status(200).json(req.user);
+  } catch (error) {
+    return res.status(500).json({ error: 'No valid token found.' });
+  }
 };

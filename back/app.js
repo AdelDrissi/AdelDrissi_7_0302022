@@ -32,24 +32,34 @@ const commentsRouter = require('./routes/comments');
 const authRouter = require('./routes/authentication');
 const req = require('express/lib/request');
 
+var corsOptions = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
 // Call the necessary dependencies //
 const app = express();
 app.use(express.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(helmet());
-
 app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
-  );
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PUT, DELETE, PATCH, OPTIONS'
-  );
+  console.log('requete reçu');
+  console.log(req);
   next();
 });
+
+// app.use((req, res, next) => {
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//   res.setHeader(
+//     'Access-Control-Allow-Headers',
+//     'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
+//   );
+//   res.setHeader(
+//     'Access-Control-Allow-Methods',
+//     'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+//   );
+//   next();
+// });
 
 //Call routes//
 app.use('/api/user', userRouter);

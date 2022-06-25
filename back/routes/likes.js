@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Ctrl = require('../controllers/likes');
+const JWT = require('../middlewares/authentication')
 
-
-router.post('/', Ctrl.likeOrNot);
+router.post('/', [JWT.auth], Ctrl.likeOrNot);
 
 module.exports = router;
