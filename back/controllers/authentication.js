@@ -16,16 +16,18 @@ exports.signUp = (req, res) => {
           if (!exist) {
             bcrypt.hash(password, 10).then((hash) => {
               Users.create({
-                username,
-                email,
-                password,
+                username: username,
+                email: email,
+                password: hash,
                 biography,
                 image,
               })
                 .then((user) => {
-                  return res
-                    .status(201)
-                    .json({ message: 'User created with the ID ' + user.id });
+                  console.log(user);
+                  return res.status(201).json({
+                    message:
+                      'User created with the ID ' + user.dataValues.userId,
+                  });
                 })
                 .catch((error) => {
                   return res
@@ -46,55 +48,53 @@ exports.signUp = (req, res) => {
         });
     }
   });
+};
 
-  exports.signIn = (req, res) => {
-    const { email, password } = req.body;
-    if (email == null || password == null) {
-      return res.status(400).json({ error: 'Missing parameters.' });
-    }
-    Users.findOne({ where: { email: email } })
-      .then((user) => {
-        if (user) {
-          bcrypt.compare(password, user.password).then((match) => {
-            if (match) {
-              const JWToken = JWT.sign(
-                {
-                  id: user.id,
-                  username: user.username,
-                  email: user.email,
-                  biography: user.biography,
-                  image: user.image,
-                },
-                process.env.SECRET_KEY
-              );
-              return res.status(200).json({
-                token: JWToken,
+exports.signIn = (req, res) => {
+  const { email, password } = req.body;
+  if (email == null || password == null) {
+    return res.status(400).json({ error: 'Missing parameters.' });
+  }
+  Users.findOne({ where: { email: email } })
+    .then((user) => {
+      if (user) {
+        bcrypt.compare(password, user.password).then((match) => {
+          if (match) {
+            const JWToken = JWT.sign(
+              {
                 id: user.id,
                 username: user.username,
                 email: user.email,
                 biography: user.biography,
                 image: user.image,
-              });
-            } else {
-              return res.status(403).json({ error: 'Invalid password.' });
-            }
-          });
-        } else {
-          return res.status(404).json({ error: email + ' do not exist.' });
-        }
-      })
-      .catch((error) => {
-        return res
-          .status(500)
-          .json({ error: 'An error has occurred. ' + error });
-      });
-  };
+              },
+              process.env.TOKEN_SECRET
+            );
+            return res.status(200).json({
+              token: JWToken,
+              id: user.id,
+              username: user.username,
+              email: user.email,
+              biography: user.biography,
+              image: user.image,
+            });
+          } else {
+            return res.status(403).json({ error: 'Invalid password.' });
+          }
+        });
+      } else {
+        return res.status(404).json({ error: email + ' do not exist.' });
+      }
+    })
+    .catch((error) => {
+      return res.status(500).json({ error: 'An error has occurred. ' + error });
+    });
+};
 
-  exports.auth = (req, res) => {
-    try {
-      return res.status(200).json(req.user);
-    } catch (error) {
-      return res.status(500).json({ error: 'No valid token found.' });
-    }
-  };
+exports.auth = (req, res) => {
+  try {
+    return res.status(200).json(req.user);
+  } catch (error) {
+    return res.status(500).json({ error: 'No valid token found.' });
+  }
 };

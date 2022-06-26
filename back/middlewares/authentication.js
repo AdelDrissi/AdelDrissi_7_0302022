@@ -12,9 +12,10 @@ auth = (req, res, next) => {
     if (!JWToken) {
       return res.status(403).json({ error: 'User not logged in.' });
     } else {
-      const user = verify(JWToken, process.env.SECRET_KEY);
-      req.user = user;
+      const User = verify(JWToken, process.env.SECRET_KEY);
+      req.user = User;
       next();
+
     }
   } catch (error) {
     return res.status(500).json({ error: 'An error has occurred. ' + error });

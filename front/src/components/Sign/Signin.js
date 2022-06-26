@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { response } from 'express';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -23,6 +24,7 @@ const SignIn = () => {
           emailError.innerHTML = res.data.errors.email;
           passwordError.innerHTML = res.data.errors.password;
         } else {
+          sessionStorage.setItem('JWToken', response.data.token)
           window.location = '/home';
         }
       })
