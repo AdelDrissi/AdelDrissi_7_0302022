@@ -33,8 +33,8 @@ const authRouter = require('./routes/authentication');
 const req = require('express/lib/request');
 
 var corsOptions = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
+  origin: '*',
+  optionsSuccessStatus: 200, 
 };
 
 // Call the necessary dependencies //
@@ -43,8 +43,6 @@ app.use(express.json());
 app.use(cors(corsOptions));
 app.use(helmet());
 app.use((req, res, next) => {
-  console.log('requete reçu');
-  console.log(req);
   next();
 });
 

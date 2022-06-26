@@ -11,7 +11,7 @@ const SignIn = () => {
     const passwordError = document.querySelector('.password.error');
     axios({
       method: 'post',
-      url: `${process.env.REACT_APP_API_URL}localhost:4000/api/sign/signin`,
+      url: `${process.env.REACT_APP_API_URL}api/sign/signin`,
       data: {
         email: email,
         password: password,
@@ -32,7 +32,7 @@ const SignIn = () => {
   };
 
   return (
-    <form action="" onSubmit={handleLogin} id="sign-up-form">
+    <form onSubmit={handleLogin} id="sign-up-form">
       <label htmlFor="email">Email</label>
       <br />
       <input

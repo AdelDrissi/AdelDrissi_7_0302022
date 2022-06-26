@@ -1,69 +1,100 @@
 const bcrypt = require('bcrypt');
-const { sign } = require('jsonwebtoken');
+const JWT = require('jsonwebtoken');
 const { Users } = require('../models/modelss');
 
-
-exports.signUp = async (req, res) => {
+exports.signUp = (req, res) => {
   const { username, email, image, password, biography } = req.body;
-  const userCreated = await Users.create({
-    username,
-    email,
-    password,
-    biography,
-    image,
+
+  Users.findOne({ where: { email: email } }).then((exist) => {
+    if (exist) {
+      return res
+        .status(409)
+        .json({ error: 'Email ' + email + ' is already in use' });
+    } else {
+      Users.findOne({ where: { username: username } })
+        .then((exist) => {
+          if (!exist) {
+            bcrypt.hash(password, 10).then((hash) => {
+              Users.create({
+                username,
+                email,
+                password,
+                biography,
+                image,
+              })
+                .then((user) => {
+                  return res
+                    .status(201)
+                    .json({ message: 'User created with the ID ' + user.id });
+                })
+                .catch((error) => {
+                  return res
+                    .status(500)
+                    .json({ error: 'An error has occurred ' + error });
+                });
+            });
+          } else {
+            return res
+              .status(409)
+              .json({ error: 'Username ' + username + ' is already in use' });
+          }
+        })
+        .catch((error) => {
+          return res
+            .status(500)
+            .json({ error: 'An error has occurred ' + error });
+        });
+    }
   });
 
-  if (userCreated) {
-    return res.status(201).json({ userCreated });
-  } else {
-    return res.status(500).json({ error: 'erreur' });
-  }
-};
-exports.signIn =  (req, res) => {
-  const { email, password } = req.body;
-  if (email == null || password == null) {
-    return res.status(400).json({ error: 'Missing parameters.' });
-  }
-   Users.findOne({ where: { email: email } })
-    .then((user) => {
-      if (user) {
-        bcrypt.compare(password, user.password).then((match) => {
-          if (match) {
-            const JWToken = sign(
-              {
+  exports.signIn = (req, res) => {
+    const { email, password } = req.body;
+    if (email == null || password == null) {
+      return res.status(400).json({ error: 'Missing parameters.' });
+    }
+    Users.findOne({ where: { email: email } })
+      .then((user) => {
+        if (user) {
+          bcrypt.compare(password, user.password).then((match) => {
+            if (match) {
+              const JWToken = JWT.sign(
+                {
+                  id: user.id,
+                  username: user.username,
+                  email: user.email,
+                  biography: user.biography,
+                  image: user.image,
+                },
+                process.env.SECRET_KEY
+              );
+              return res.status(200).json({
+                token: JWToken,
                 id: user.id,
                 username: user.username,
                 email: user.email,
                 biography: user.biography,
                 image: user.image,
-              },
-              process.env.SECRET_KEY
-            );
-            return res.status(200).json({
-              token: JWToken,
-              id: user.id,
-              username: user.username,
-              email: user.email,
-              biography: user.biography,
-              image: user.image,
-            });
-          } else {
-            return res.status(403).json({ error: 'Invalid password.' });
-          }
-        });
-      } else {
-        return res.status(404).json({ error: email + ' do not exist.' });
-      }
-    })
-    .catch((error) => {
-      return res.status(500).json({ error: 'An error has occurred. ' + error });
-    });
-};
+              });
+            } else {
+              return res.status(403).json({ error: 'Invalid password.' });
+            }
+          });
+        } else {
+          return res.status(404).json({ error: email + ' do not exist.' });
+        }
+      })
+      .catch((error) => {
+        return res
+          .status(500)
+          .json({ error: 'An error has occurred. ' + error });
+      });
+  };
 
-exports.auth = (req, res) => {
-  try {
-    return res.status(200).json(req.user);
-  } catch (error) {
-    return res.status(500).json({ error: 'No valid token found.' });
-  }
+  exports.auth = (req, res) => {
+    try {
+      return res.status(200).json(req.user);
+    } catch (error) {
+      return res.status(500).json({ error: 'No valid token found.' });
+    }
+  };
 };
