@@ -46,7 +46,7 @@ exports.updateUser = async (req, res) => {
     return res.status(500).send({ error: 'An error has occurred. ' + error });
   }
 };
-exports.deleteUser = async (req, res) => {
+exports.deleteUser = (req, res) => {
   const userId = req.params.id;
   Users.destroy({ where: { userId: userId } })
     .then(() =>

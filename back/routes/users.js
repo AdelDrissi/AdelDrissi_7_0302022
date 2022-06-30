@@ -10,8 +10,8 @@ router.get('/read/:id', [JWT.auth], Ctrl.readUser);
 // POST requests to the users route //
 router.post('/register', [JWT.auth], authController.signUp);
 // PUT requests to the users route //
-router.put('/update/:id', [JWT.auth], upload.single('image'), Ctrl.updateUser);
+router.put('/update/:id', upload.single('image'), [JWT.auth], Ctrl.updateUser);
 // DELETE requests to the users route //
-router.delete('/delete/:id', [JWT.auth], Ctrl.deleteUser);
+router.delete('/delete/:id', Ctrl.deleteUser);
 
 module.exports = router;

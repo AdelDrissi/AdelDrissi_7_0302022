@@ -8,13 +8,12 @@ const { Likes } = require('../models/modelss');
 // Else remove the like to the Likes tables and return status 201 and liked false        //
 // If an error occurs, catch it and return status 400 and the error message              //
 exports.likeOrNot = async (req, res) => {
-  const { PostId } = req.body;
   const UserId = req.user.id;
   const exist = await Likes.findOne({
-    where: { PostId: PostId, UserId: UserId },
+    where: { UserId: UserId },
   });
   if (!exist) {
-    await Likes.create({ PostId: PostId, UserId: UserId })
+    await Likes.create({ UserId: UserId })
       .then(() => {
         res.status(201).json({ liked: true });
       })
@@ -22,8 +21,8 @@ exports.likeOrNot = async (req, res) => {
         res.status(400).json({ error: 'An error has occurred. ' + error });
       });
   } else {
-    await Likes.update({
-      where: { PostId: PostId, UserId: UserId },
+    await Likes.destroy({
+      where: { UserId: UserId },
     })
       .then(() => {
         res.status(201).json({ liked: false });

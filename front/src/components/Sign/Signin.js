@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { response } from 'express';
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -24,7 +23,7 @@ const SignIn = () => {
           emailError.innerHTML = res.data.errors.email;
           passwordError.innerHTML = res.data.errors.password;
         } else {
-          sessionStorage.setItem('JWToken', response.data.token)
+          sessionStorage.setItem('JWToken', res.data.token);
           window.location = '/home';
         }
       })
@@ -38,6 +37,7 @@ const SignIn = () => {
       <label htmlFor="email">Email</label>
       <br />
       <input
+        placeholder="Votre adresse mail"
         type="text"
         name="email"
         id="email"
@@ -49,6 +49,7 @@ const SignIn = () => {
       <label htmlFor="password">Mot de passe</label>
       <br />
       <input
+        placeholder="Votre mot de passe"
         type="password"
         name="password"
         id="password"
