@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const SignIn = () => {
+function SignIn() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -15,6 +15,7 @@ const SignIn = () => {
       data: {
         email: email,
         password: password,
+        
       },
     })
       .then((res) => {

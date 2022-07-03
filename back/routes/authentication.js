@@ -7,7 +7,6 @@ const JWT = require('../middlewares/authentication');
 router.post('/signup', Ctrl.signUp);
 router.post('/signin', Ctrl.signIn);
 // GET request to the authentication route //
-router.get('/auth', [JWT.auth], Ctrl.auth);
+router.get('/auth',  Ctrl.auth);
 
 module.exports = router;
-
