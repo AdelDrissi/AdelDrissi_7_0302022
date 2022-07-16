@@ -6,7 +6,7 @@ const upload = require('../middlewares/multer');
 const JWT = require('../middlewares/authentication');
 
 // GET requests to the users route //
-router.get('/read/:id', [JWT.auth], Ctrl.readUser);
+router.get('/:id', [JWT.auth], Ctrl.readUser);
 // POST requests to the users route //
 router.post('/register', [JWT.auth], authController.signUp);
 // PUT requests to the users route //

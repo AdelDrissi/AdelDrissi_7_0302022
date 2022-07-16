@@ -15,7 +15,6 @@ function SignIn() {
       data: {
         email: email,
         password: password,
-        
       },
     })
       .then((res) => {
@@ -62,6 +61,6 @@ function SignIn() {
       <input type="submit" value="Se connecter" />
     </form>
   );
-};
+}
 
 export default SignIn;

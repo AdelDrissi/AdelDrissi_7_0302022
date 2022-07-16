@@ -1,109 +1,141 @@
+// Importation of the necessary dependencies //
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Formik, Form, Field, ErrorMessage } from 'formik';
+import * as Yup from 'yup';
+import Signin from './Signin';
 
-function Signup()  {
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [ControlPassword, setControlPassword] = useState('');
+// Starting point of the Signup component //
+function Signup() {
+  // Declaration of the useState hook //
 
-  const handleRegister = async (e) => {
-    e.preventDefault();
-
-    const usernameError = document.querySelector('.username.error');
-    const emailError = document.querySelector('.email.error');
-    const passwordError = document.querySelector('.password.error');
-    const passwordConfirmError = document.querySelector(
-      '.password-confirm-error'
-    );
-    const termsError = document.querySelector('.terms.error');
-
-    passwordConfirmError.innerHTML = '';
-    termsError.innerHTML = '';
-
-    if (password !== ControlPassword)
-      if (password !== ControlPassword)
-        passwordConfirmError.innerHTML =
-          'les mots de passes ne correspondent pas';
-      else {
-        await axios({
-          method: 'post',
-          url: `${process.env.REACT_APP_API_URL}api/sign/signup`,
-        })
-          .then((res) => {
-            console.log(res);
-            if (res.data.errors) {
-              usernameError.innerHTML = res.data.errors.username;
-              emailError.innerHTML = res.data.errors.email;
-              passwordError.innerHTML = res.data.errors.password;
-            }
-          })
-          .catch((err) => console.log(err));
-      }
+  const [formSubmit, setFormSubmit] = useState(false);
+  // Declaration of the initial values ​​of the form //
+  const initialValues = {
+    username: '',
+    email: '',
+    password: '',
+    confirmation: '',
   };
 
-
+  // Declaration of the form validation schema //
+  const validationSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, 'Au moins 3 caractères')
+      .max(15, 'Pas plus de 15 caractères')
+      .required('Veuillez remplir ce champ'),
+    email: Yup.string()
+      .email('Email non valide (nom@email.com)')
+      .required('Veuillez remplir ce champ'),
+    password: Yup.string()
+      .min(6, 'Au moins 6 caractères')
+      .max(18, 'Pas plus de 18 caractères')
+      .required('Veuillez remplir ce champ')
+      .matches(
+        /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,18}$/,
+        'Doit contenir une majuscule, une minuscule et un chiffre '
+      ),
+    confirmation: Yup.string()
+      .oneOf(
+        [Yup.ref('password'), null],
+        'Les mots de passes ne correspondent pas'
+      )
+      .required('Veuillez remplir ce champ'),
+  });
+  // Creation of the onSubmit function containing the form data //
+  const onSubmit = (data) => {
+    axios
+      .post(`${process.env.REACT_APP_API_URL}api/sign/signup`, data)
+      .then((res) => {
+        console.log(res.data);
+        if (res.data.error) {
+          console.log(res.data.error);
+        } else {
+          setFormSubmit(true);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  // Virtual DOM //
 
   return (
-    <form action="" onSubmit={handleRegister} id="signup">
-      <label htmlFor="username">Username</label>
-      <br />
-      <input
-        type="text"
-        name="username"
-        id="username"
-        onChange={(e) => setUsername(e.target.value)}
-        value={username}
-      />
-    
-      <div className="username error"></div>
-      <br />
-      <label htmlFor="email">Email</label>
-      <br />
-      <input
-        type="email"
-        name="email"
-        id="email"
-        onChange={(e) => setEmail(e.target.value)}
-        value={email}
-      />
-      <div className="email error"></div>
-      <br />
-      <label htmlFor="password">Mot de passe</label>
-      <br />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        onChange={(e) => setPassword(e.target.value)}
-        value={password}
-      />
-      <div className="password error"></div>
-      <br />
-      <label htmlFor="confirm-password">Confirmer votre mot de passe</label>
-      <br />
-      <input
-        type="password"
-        name="password"
-        id="password-conf"
-        onChange={(e) => setControlPassword(e.target.value)}
-        value={ControlPassword}
-      />
-      <div className="password-confirm-error"></div>
-      <br />
-      <label id="terms" htmlFor="terms">
-        J'accepte les{' '}
-        <a href="/" target="_blank" rel="noopener noreferrer">
-          {' '}
-          Conditions generales
-        </a>
-      </label>
-      <div className="terms error"></div>
-      <br />
-      <input type="submit" value="Valider l'incriptions" />
-    </form>
+    <>
+      {formSubmit ? (
+        <>
+          <Signin />
+          <br />
+          <div>
+            <p className="sign_valid">
+              Inscription validé, veuillez vous à présent vous connecter !
+            </p>
+          </div>
+        </>
+      ) : (
+        <Formik
+          initialValues={initialValues}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          <Form className="sign_form">
+            <br />
+            <ErrorMessage name="username" component="span" />
+            <br />
+            <Field
+              aria-label="votre nom d'utilisateur"
+              className="sign_form_input"
+              name="username"
+              placeholder="Votre nom d'utilisateur"
+              autoComplete="off"
+            />
+            <br />
+            <ErrorMessage name="email" component="span" />
+            <br />
+            <Field
+              aria-label="votre adresse email"
+              className="sign_form_input"
+              name="email"
+              placeholder="Votre adresse email"
+              autoComplete="off"
+            />
+            <br />
+            <ErrorMessage name="password" component="span" />
+            <br />
+            <Field
+              aria-label="votre mot de passe"
+              className="register_form_input"
+              type="password"
+              name="password"
+              placeholder="Votre mot de passe"
+              autoComplete="off"
+            />
+            <br />
+            <ErrorMessage name="confirmation" component="span" />
+            <br />
+            <Field
+              aria-label="confirmer votre mot de passe"
+              className="sign_form_input"
+              type="password"
+              name="confirmation"
+              placeholder="Confirmez votre mot de passe"
+              autoComplete="off"
+            />
+            <br/>
+            <br />
+            <button
+              className="sign_form_button"
+              type="submit"
+              aria-label="valider"
+            >
+              Valider
+            </button>
+          </Form>
+        </Formik>
+      )}
+    </>
   );
-};
-
+}
+// Exportation of the log Signup component //
 
 export default Signup;
