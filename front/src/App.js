@@ -1,3 +1,4 @@
+import './styles/index.css';
 import { AuthContext } from './helpers/authContext';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -10,6 +11,7 @@ function App() {
     email: '',
     biography: '',
     image: '',
+    isAdmin: false,
     status: false,
   });
 

@@ -17,22 +17,22 @@ const Sign = (props) => {
   };
 
   return (
-    <div className="connection-form">
+    <div className="sign">
       <div className="form-container">
         <ul>
           <li
-            onClick={handleModals}
+            onClick={handleModals} 
             id="signup"
             className={signUpModal ? 'active-btn' : null}
           >
-            S'inscrire
+            Se connecter 
           </li>
           <li
             onClick={handleModals}
             id="signin"
             className={signInModal ? 'active-btn' : null}
           >
-            Se connecter
+            S'inscrire
           </li>
         </ul>
         {signUpModal && <Signup />}

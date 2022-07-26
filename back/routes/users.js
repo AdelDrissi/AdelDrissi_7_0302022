@@ -6,11 +6,11 @@ const upload = require('../middlewares/multer');
 const JWT = require('../middlewares/authentication');
 
 // GET requests to the users route //
-router.get('/:id', [JWT.auth], Ctrl.readUser);
+router.get('/:id', Ctrl.readUser);
 // POST requests to the users route //
-router.post('/register', [JWT.auth], authController.signUp);
+router.post('/register', authController.signUp);
 // PUT requests to the users route //
-router.put('/update/:id', upload.single('image'), [JWT.auth], Ctrl.updateUser);
+router.put('/update/:id', upload.single('image'), JWT, Ctrl.updateUser);
 // DELETE requests to the users route //
 router.delete('/delete/:id', Ctrl.deleteUser);
 

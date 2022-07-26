@@ -56,6 +56,7 @@ const Users = sequelize.define('Users', {
   image: {
     type: DataTypes.STRING,
     allowNull: false,
+    defaultValue: 'http://localhost:3000/image/Image12.jpg',
   },
   password: {
     type: DataTypes.STRING,
@@ -64,6 +65,11 @@ const Users = sequelize.define('Users', {
   biography: {
     type: DataTypes.TEXT,
     allowNull: false,
+  },
+  isAdmin: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false,
+    defaultValue: 0,
   },
 });
 
@@ -77,19 +83,19 @@ const Likes = sequelize.define('Likes', {
 Users.hasMany(Posts, {
   as: 'posts',
   onDelete: 'CASCADE',
-  foreignKey: 'userId',
+  foreignKey: 'userI',
 });
 
 Posts.belongsTo(Users);
 
 Users.hasMany(Likes, { as: 'likes', onDelete: 'CASCADE' });
 
-Likes.belongsTo(Users,);
+Likes.belongsTo(Users);
 
 Users.hasMany(Comments, { as: 'comments', onDelete: 'CASCADE' });
 
-Comments.belongsTo(Users,{
-  foreignKey: 'postid'
+Comments.belongsTo(Users, {
+  foreignKey: 'postid',
 });
 
 Posts.hasMany(Comments, { as: 'comments', onDelete: 'CASCADE' });

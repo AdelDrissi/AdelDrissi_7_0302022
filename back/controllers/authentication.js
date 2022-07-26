@@ -3,7 +3,7 @@ const JWT = require('jsonwebtoken');
 const { Users } = require('../models/modelss');
 
 exports.signUp = (req, res) => {
-  const { username, email, image, password, biography } = req.body;
+  const { username, email, password } = req.body;
 
   Users.findOne({ where: { email: email } }).then((exist) => {
     if (exist) {
@@ -19,8 +19,8 @@ exports.signUp = (req, res) => {
                 username: username,
                 email: email,
                 password: hash,
-                biography,
-                image,
+                biography: '',
+                image: '',
               })
                 .then((user) => {
                   console.log(user);
@@ -62,7 +62,7 @@ exports.signIn = (req, res) => {
           if (match) {
             const JWToken = JWT.sign(
               {
-                id: user.id,
+                id: user.userId,
                 username: user.username,
                 email: user.email,
                 biography: user.biography,
@@ -72,7 +72,7 @@ exports.signIn = (req, res) => {
             );
             return res.status(200).json({
               token: JWToken,
-              id: user.id,
+              id: user.userId,
               username: user.username,
               email: user.email,
               biography: user.biography,
@@ -93,7 +93,7 @@ exports.signIn = (req, res) => {
 
 exports.auth = (req, res) => {
   try {
-    return res.status(200).json(req.user);
+    return res.status(200).json(req.userId);
   } catch (error) {
     return res.status(500).json({ error: 'No valid token found.' });
   }

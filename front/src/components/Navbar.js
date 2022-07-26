@@ -9,7 +9,7 @@ import { AuthContext } from '../helpers/authContext';
 function Navbar() {
 
   // Declaration of the useState hook //
-  const { authState } = useContext(AuthContext);
+  const { authState } = useContext(AuthContext)
   const profil = () => {
     window.location.replace(`/user/${authState.id}`);
   };

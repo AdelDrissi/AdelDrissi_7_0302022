@@ -33,12 +33,13 @@ function SignIn() {
   };
 
   return (
-    <form onSubmit={handleLogin} id="sign-up-form">
+    <form onSubmit={handleLogin} className="sign-in-form">
       <label htmlFor="email">Email</label>
       <br />
       <input
         placeholder="Votre adresse mail"
         type="text"
+        required="Veuillez rensiegner ce champs"
         name="email"
         id="email"
         onChange={(e) => setEmail(e.target.value)}
@@ -51,6 +52,7 @@ function SignIn() {
       <input
         placeholder="Votre mot de passe"
         type="password"
+        required="Veuillez renseigner ce champs"
         name="password"
         id="password"
         onChange={(e) => setPassword(e.target.value)}

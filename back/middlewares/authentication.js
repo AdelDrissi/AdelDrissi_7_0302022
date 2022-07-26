@@ -1,29 +1,44 @@
-// Import the necessary dependencies //
-const { verify } = require('jsonwebtoken');
-require('dotenv').config({ path: './config/.env' });
-// Get token from the header of the request                     //
-// If no token, return a 403 status and the error               //
-// Using the JWT verify function to check if the token is valid //
-// If error, return 401 status and the error message            //
-// Otherwise go to next function                                //
-auth = (req, res, next) => {
-  try {
-    console.log(req.headers.authorization);
-    const JWToken = req.headers.split.authorization('jwt')[JWToken];
-    if (!JWToken) {
-      return res.status(403).json({ error: 'User not logged in.' });
-    } else {
-      const User = verify(JWToken, process.env.TOKEN_SECRET);
-      req.user = User;
-      next();
+const jwt = require('jsonwebtoken');
+
+module.exports = (req, res, next) => {
+  if (req.headers.authorization == undefined) {
+    console.log('Pas de token dans la route ' + req.originalUrl);
+  } else {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(
+      token,
+      process.env.TOKEN_SECRET,
+      function (err, decoded) {
+        if (err) {
+          err = {
+            name: 'jwt expired',
+            message: 'La connexion est expriré, merci de vous reconnecter',
+          };
+          res.status(401).json({ message: err });
+        } else {
+          return decoded;
+        }
+      }
+    );
+
+    const userId = decodedToken.userId;
+    if (!token) {
+      return res
+        .status(403)
+        .send("Un token est requis pour l'authentification");
     }
-  } catch (error) {
-    return res.status(500).json({ error: 'An error has occurred. ' + error });
+
+    try {
+      if (req.body.userId && req.body.userId !== userId) {
+        // On indique si l'id est le même => false = Id non valide
+        console.log('Pas bon');
+        return res.send('Id est pas la meme');
+      } else {
+        res.locals.decodedToken = decodedToken;
+        next();
+      }
+    } catch (err) {
+      (err) => res.status(400).json(err);
+    }
   }
 };
-// Declare constant containing the function //
-const JWT = {
-  auth: auth,
-};
-// Export the authentication function //
-module.exports = JWT;
