@@ -1,19 +1,30 @@
 const { Posts, Comments, Likes } = require('../models/modelss');
+const fs = require('fs');
 
-exports.createPost = (req, res) => {
+exports.createPost = async (req, res) => {
   let image;
   if (req.body.content === null || !req.body.content) {
     res.status(400).json({ message: 'Content is required.' });
   } else {
     req.file;
-    image = `${req.protocol}://${req.get('host')}/image/${req.filename}`;
+    image = `${req.protocol}://${req.get('host')}/image/${req.file.filename}`;
+
+    // const fileName = req.body.username + '.jpg';
+    // await pipeline(
+    //   req.file.stream,
+    //   fs.createWriteStream(`${__dirname}/back/image/${fileName}`)
+    // );
   }
+
+  console.log(image);
   const post = req.body;
   post.username = req.body.username;
   post.image = image;
   Posts.create(post)
     .then((post) => {
-      res.status(201).json({ message: 'Post created with the ID ' + post.id });
+      res.status(201).json({
+        message: 'Post created with the ID ' + post.dataValues.PostId,
+      });
     })
     .catch((error) => {
       res.status(400).json({ error: 'An error has occurred. ' + error });
@@ -95,3 +106,4 @@ exports.deletePost = (req, res) => {
     })
     .catch((error) => res.status(500).json({ error }));
 };
+

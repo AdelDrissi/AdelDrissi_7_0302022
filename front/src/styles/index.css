@@ -25,4 +25,8 @@ ul {
 
 .navbar {
   text-align: center;
+}
+
+.post_image img {
+  width: clamp(250px, 20vw, 500px);
 }/*# sourceMappingURL=index.css.map */

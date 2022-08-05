@@ -62,7 +62,7 @@ exports.signIn = (req, res) => {
           if (match) {
             const JWToken = JWT.sign(
               {
-                id: user.userId,
+                userId: user.userId,
                 username: user.username,
                 email: user.email,
                 biography: user.biography,
@@ -92,9 +92,18 @@ exports.signIn = (req, res) => {
 };
 
 exports.auth = (req, res) => {
-  try {
-    return res.status(200).json(req.userId);
-  } catch (error) {
-    return res.status(500).json({ error: 'No valid token found.' });
-  }
+  Users.findOne({
+    where: { userId: res.locals.decodedToken.userId },
+    attributes :{
+      exclude :["password"]
+    }
+  })
+    .then(result => {
+      res.status(200).json(result.dataValues)
+    })
+    .catch(error => {
+      console.log(error);
+    })
+
+ 
 };

@@ -1,6 +1,5 @@
 // Imports the necessary dependencies //
 import React, { useEffect, useState } from 'react';
-import Navbar from '../components/Navbar';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -35,7 +34,6 @@ function User() {
 
   return (
     <div className="user">
-      <Navbar />
       <div className="user_profile">
         <div className="user_leftside">
           <div className="user_image">

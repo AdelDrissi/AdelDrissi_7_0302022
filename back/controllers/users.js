@@ -5,7 +5,14 @@ exports.readUser = async (req, res) => {
   try {
     const id = req.params.id;
     await Users.findByPk(id, {
-      attributes: ['username', 'email', 'biography', 'password', 'image'],
+      attributes: [
+        'username',
+        'email',
+        'biography',
+        'password',
+        'image',
+        'isAdmin',
+      ],
     }).then((user) => {
       if (!user) {
         res.status(404).json({ error: 'User ID ' + id + ' not found.' });

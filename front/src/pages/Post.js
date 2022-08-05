@@ -4,13 +4,12 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Navbar from '../components/Navbar';
 import { Formik, Form, Field } from 'formik';
 import EditIcon from '@mui/icons-material/Edit';
 import DoneIcon from '@mui/icons-material/Done';
 import { AuthContext } from '../helpers/authContext';
 function Post() {
-// Declares useParams, useNavigate, useState and useContext hooks //
+  // Declares useParams, useNavigate, useState and useContext hooks //
 
   let { id } = useParams();
   let navigate = useNavigate();
@@ -19,7 +18,7 @@ function Post() {
   const [postForm, setPostForm] = useState(false);
   const [content, setContent] = useState('');
   const [image, setImage] = useState();
-  const [comments, setComments] = useState([]);
+  const [comments, setComments] = useState(['']);
   const [newComment, setNewcomment] = useState('');
 
   // Declaration of the initial values ​​of the form //
@@ -66,7 +65,7 @@ function Post() {
       })
       .then((res) => {
         setContent(res.data.content);
-        window.location.replace(`/home/${id}`);
+        window.location.replace(`/post/${id}`);
       });
   };
 
@@ -146,16 +145,17 @@ function Post() {
         },
       })
       .then(() => {
-        window.location.replace(`/home/${post.id}`);
+        window.location.replace(`/post/${post.id}`);
       });
   };
-  // Virtual DOM //
 
+  // Virtual DOM //
   return (
     <div className="page_container">
-      <Navbar />
       <div className="post_container">
         <div className="post">
+          {/* {(quelOption ===  ((!quelOptionn ===  true) === true)) && (<div> Option A</div>)} */}
+
           {(authState.username === post.username && (
             <>
               <EditIcon
@@ -184,7 +184,7 @@ function Post() {
               </div>
             </>
           )}
-          {postForm && (
+          {postForm === false && (
             <>
               <Formik initialValues={initialValues} onSubmit={updateContent}>
                 <Form className="create_form">

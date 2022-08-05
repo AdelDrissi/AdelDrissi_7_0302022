@@ -24,7 +24,7 @@ exports.createComment = async (req, res) => {
       .then((comment) => {
         res
           .status(201)
-          .json({ message: 'Comment created with the ID ' + comment.id });
+          .json({ message: 'Comment created with the ID ' + comment.dataValues.CommentsId });
       })
       .catch((error) => {
         res.status(400).json({ error: 'An error has occurred. ' + error });

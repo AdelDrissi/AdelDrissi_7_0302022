@@ -83,7 +83,7 @@ const Likes = sequelize.define('Likes', {
 Users.hasMany(Posts, {
   as: 'posts',
   onDelete: 'CASCADE',
-  foreignKey: 'userI',
+  foreignKey: 'userId',
 });
 
 Posts.belongsTo(Users);

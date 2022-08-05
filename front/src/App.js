@@ -12,7 +12,6 @@ function App() {
     biography: '',
     image: '',
     isAdmin: false,
-    status: false,
   });
 
   // Execute this function immediately when the page is opened //
@@ -31,12 +30,12 @@ function App() {
         setAuthState({ ...authState, status: false });
       } else {
         setAuthState({
-          id: res.data.id,
+          id: res.data.userId,
           username: res.data.username,
           email: res.data.email,
           biography: res.data.biography,
           image: res.data.image,
-          status: true,
+          isAdmin: res.data.isAdmin,
         });
         console.log(res);
       }

@@ -9,10 +9,10 @@ router.post('/', upload.single('image'), Ctrl.createPost);
 
 // GET requests to the post route //
 router.get('/readpostall', JWT, Ctrl.readAllPosts);
-router.get('/readOne/:id', JWT, Ctrl.readOnePost);
+router.get('/readOne/:id', upload.single('image') , JWT, Ctrl.readOnePost);
 
 // PUT request to the posts route //
-router.put('/updatePost/:id', JWT, upload.single('image'), Ctrl.updatePost);
+router.put('/updatePost/:id', upload.single('image'), Ctrl.updatePost);
 
 // DELETE request to the posts route //
 router.delete('/delete/:id', JWT, Ctrl.deletePost);

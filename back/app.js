@@ -9,7 +9,7 @@ const path = require('path');
 // Connection to the database
 async function connectDB() {
   try {
-    await sequelize.authenticate({ alter: true });
+    await sequelize.authenticate();
     console.log('Connection has been established successfully.');
   } catch (err) {
     console.error('Unable to connect to the database:', err);
@@ -42,20 +42,13 @@ var corsOptions = {
 const app = express();
 app.use(express.json());
 app.use(cors(corsOptions));
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+  })
+);
 
-// app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader(
-//     'Access-Control-Allow-Headers',
-//     'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
-//   );
-//   res.setHeader(
-//     'Access-Control-Allow-Methods',
-//     'GET, POST, PUT, DELETE, PATCH, OPTIONS'
-//   );
-//   next();
-// });
+
 
 //Call routes//
 app.use('/api/user', userRouter);

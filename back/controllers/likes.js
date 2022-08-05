@@ -13,7 +13,7 @@ exports.likeOrNot = async (req, res) => {
     where: { UserId: UserId },
   });
   if (!exist) {
-    await Likes.create({ UserId: UserId })
+    await Likes.create({  UserId: UserId })
       .then(() => {
         res.status(201).json({ liked: true });
       })
