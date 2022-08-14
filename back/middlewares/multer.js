@@ -31,5 +31,6 @@ const storage = multer.diskStorage({
   },
 });
 // Export multer configuration by indicating to manage a single image type file //
-const upload = multer({ imageFilter: imageFilter, storage: storage });
-module.exports = upload;
+module.exports = multer({ imageFilter: imageFilter, storage: storage }).single(
+
+);

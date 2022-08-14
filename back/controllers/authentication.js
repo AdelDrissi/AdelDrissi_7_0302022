@@ -67,6 +67,7 @@ exports.signIn = (req, res) => {
                 email: user.email,
                 biography: user.biography,
                 image: user.image,
+                isAdmin: user.isAdmin,
               },
               process.env.TOKEN_SECRET
             );
@@ -77,6 +78,7 @@ exports.signIn = (req, res) => {
               email: user.email,
               biography: user.biography,
               image: user.image,
+              isAdmin: user.isAdmin,
             });
           } else {
             return res.status(403).json({ error: 'Invalid password.' });

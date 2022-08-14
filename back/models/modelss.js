@@ -56,7 +56,7 @@ const Users = sequelize.define('Users', {
   image: {
     type: DataTypes.STRING,
     allowNull: false,
-    defaultValue: 'http://localhost:3000/image/Image12.jpg',
+    defaultValue: 'http://localhost:3000/image/default_user.png',
   },
   password: {
     type: DataTypes.STRING,
@@ -99,6 +99,10 @@ Comments.belongsTo(Users, {
 });
 
 Posts.hasMany(Comments, { as: 'comments', onDelete: 'CASCADE' });
+
+Posts.hasMany(Likes, {
+  onDelete: 'cascade',
+});
 
 Comments.belongsTo(Posts);
 

@@ -7,30 +7,28 @@ exports.createPost = async (req, res) => {
     res.status(400).json({ message: 'Content is required.' });
   } else {
     req.file;
-    image = `${req.protocol}://${req.get('host')}/image/${req.file.filename}`;
+    console.log(req.file);
+    image = `${req.protocol}://${req.get('host')}/image/${req.file}`;
 
-    // const fileName = req.body.username + '.jpg';
-    // await pipeline(
-    //   req.file.stream,
-    //   fs.createWriteStream(`${__dirname}/back/image/${fileName}`)
-    // );
-  }
 
-  console.log(image);
-  const post = req.body;
-  post.username = req.body.username;
-  post.image = image;
-  Posts.create(post)
-    .then((post) => {
-      res.status(201).json({
-        message: 'Post created with the ID ' + post.dataValues.PostId,
+    // console.log(image);
+    const post = req.body;
+    // console.log(post);
+    post.username = req.body.username;
+    // console.log(post.username);
+    post.image = image;
+    // console.log(post.image);
+    Posts.create(post)
+      .then((post) => {
+        res.status(201).json({
+          message: 'Post created with the ID ' + post.dataValues.PostId,
+        });
+      })
+      .catch((error) => {
+        res.status(400).json({ error: 'An error has occurred. ' + error });
       });
-    })
-    .catch((error) => {
-      res.status(400).json({ error: 'An error has occurred. ' + error });
-    });
+  }
 };
-
 // Find all the post in the posts tables including the Likes and Comments tables //
 // Then return status 200 with all the data asked                                //
 // If an error occurs, catch it and return status 400 and the error message      //
@@ -42,6 +40,7 @@ exports.readAllPosts = async (req, res) => {
     userId = req.params.id;
     const listOfPosts = await Posts.findAll({ as: [Likes, Comments] });
     res.status(200).json({ listOfPosts: listOfPosts });
+    return res.status(400);
   } catch (error) {
     res.status(400).json({ error: 'An error has occurred. ' + error });
   }
@@ -106,4 +105,3 @@ exports.deletePost = (req, res) => {
     })
     .catch((error) => res.status(500).json({ error }));
 };
-

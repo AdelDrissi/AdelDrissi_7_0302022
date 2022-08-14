@@ -48,8 +48,6 @@ app.use(
   })
 );
 
-
-
 //Call routes//
 app.use('/api/user', userRouter);
 app.use('/api/sign', authRouter);
