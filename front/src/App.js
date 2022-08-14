@@ -3,6 +3,7 @@ import { AuthContext } from './helpers/authContext';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import Routes from './components/Routes';
+import Header from './components/Header';
 
 function App() {
   const [authState, setAuthState] = useState({
@@ -48,6 +49,7 @@ function App() {
   return (
     <div className="App">
       <AuthContext.Provider value={{ authState, setAuthState }}>
+        <Header />
         <Routes />
       </AuthContext.Provider>
     </div>

@@ -14,15 +14,17 @@ function Upload() {
 
   // Execute this function immediately when the page is opened //
   useEffect(() => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}api/user/${id}`, {
-        headers: {
-          JWToken: sessionStorage.getItem('JWToken'),
-        },
-      })
-      .then((res) => {
-        setEmail(res.data.email);
-      });
+    axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_API_URL}api/user/${id}`,
+      headers: {
+        authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    }).then((res) => {
+      setEmail(res.data.email);
+    });
+    //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // PUT request //
@@ -30,20 +32,22 @@ function Upload() {
     event.preventDefault();
     const data = new FormData();
     data.append('image', image);
-    axios
-      .put(`${process.env.REACT_APP_API_URL}api/user/update/${id}`, data, {
-        headers: {
-          JWToken: sessionStorage.getItem('JWToken'),
-        },
-      })
-      .then((res) => {
-        if (res.data.error) {
-          console.log(res.data.error);
-        } else {
-          setImage({ ...image, image: data });
-          window.location.replace(`/user/${id}`);
-        }
-      });
+    axios({
+      method: 'put',
+      url: `${process.env.REACT_APP_API_URL}api/user/update/${id}`,
+      data: data,
+      headers: {
+        authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    }).then((res) => {
+      if (res.data.error) {
+        console.log(res.data.error);
+      } else {
+        setImage({ ...image, image: data });
+        window.location.replace(`/user/${id}`);
+      }
+    });
   };
 
   // Virtual DOM //
@@ -55,7 +59,6 @@ function Upload() {
           <br />
           <input
             type="file"
-            id="image"
             name="image"
             accept=".jpeg, .jpg, .png, .gif, .webp"
             onChange={(event) => setImage(event.target.files[0])}
@@ -63,7 +66,7 @@ function Upload() {
           />
           <br />
           <button type="submit" aria-label="valider">
-            Modifier
+            Modifier votre image
           </button>
         </form>
       )) ||

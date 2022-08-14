@@ -4,6 +4,7 @@
   align-items: center;
   margin: 0 auto;
   width: 80%;
+  font-family: 'Lato', sans-serif;
   padding: 20px;
   margin-top: 50px;
   border: 2px solid $color-1;
@@ -16,7 +17,9 @@
 ul {
   list-style-type: none;
   display: flex;
- grid-gap: 20px
+  grid-gap: 80px;
+  font-size: 20px;
+  cursor: pointer;
 }
 
 .form_container {

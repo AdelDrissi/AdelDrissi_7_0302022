@@ -2,6 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import UpdateEmail from '../components/User/UpdateEmail';
+import Upload from '../components/User/Upload';
+import UpdateBio from '../components/User/UpdateBio';
+import Delete from '../components/User/Delete';
+import UpdatePassword from '../components/User/UpdatePassword';
+
 
 // Starting point of the User page //
 function User() {
@@ -37,12 +43,17 @@ function User() {
       <div className="user_profile">
         <div className="user_leftside">
           <div className="user_image">
-            <img src={image} alt="profil"  />
+            <img src={image} alt="profil" />
+            <Upload />
           </div>
         </div>
         <div className="user_rightside">
           <h1>Profil de {username}</h1>
+          <UpdateBio />
           <div className="user_email_password"></div>
+          <UpdateEmail />
+          <UpdatePassword />
+          <Delete />
         </div>
       </div>
     </div>

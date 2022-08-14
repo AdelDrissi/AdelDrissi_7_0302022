@@ -1,38 +1,44 @@
+// Import the necessary dependencies //
 import React, { useState } from 'react';
-import Signup from './Signup';
 import Signin from './Signin';
+import Signup from './Signup';
 
-const Sign = (props) => {
+// Starting point of the Sign index component //
+function Sign(props) {
+  // Declare the useState hooks //
   const [signUpModal, setSignUpModal] = useState(props.signup);
   const [signInModal, setSignInModal] = useState(props.signin);
 
-  const handleModals = (e) => {
-    if (e.target.id === 'signup') {
-      setSignUpModal(false);
-      setSignInModal(true);
-    } else if (e.target.id === 'signin') {
+  // Modals toggle system //
+  const handleModals = (event) => {
+    if (event.target.id === 'signup') {
       setSignInModal(false);
       setSignUpModal(true);
+    } else if (event.target.id === 'signin') {
+      setSignUpModal(false);
+      setSignInModal(true);
     }
   };
 
+  // Virtual DOM //
   return (
     <div className="sign">
       <div className="form-container">
         <ul>
           <li
-            onClick={handleModals} 
+            onClick={handleModals}
             id="signup"
             className={signUpModal ? 'active-btn' : null}
           >
-            Se connecter 
+            S'inscrire
           </li>
+          <br />
           <li
             onClick={handleModals}
             id="signin"
             className={signInModal ? 'active-btn' : null}
           >
-            S'inscrire
+            Se connecter
           </li>
         </ul>
         {signUpModal && <Signup />}
@@ -40,6 +46,6 @@ const Sign = (props) => {
       </div>
     </div>
   );
-};
-
+}
+// Exportation of the log index component //
 export default Sign;

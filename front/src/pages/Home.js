@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
 import Create from '../components/Post/Create';
+import Navbar from '../components/Navbar'
 function Home() {
 
   // Declares useNavigate and useStates hooks //
@@ -26,7 +27,7 @@ function Home() {
       // Checks if the user has a valid token                    //
       // Then returns the lists receveid from the API            //
       axios
-        .get(`${process.env.REACT_APP_API_URL}api/posts`, {
+        .get(`${process.env.REACT_APP_API_URL}api/posts/readpostall`, {
           headers: {
             JWToken: sessionStorage.getItem('JWToken'),
           },
@@ -93,6 +94,7 @@ function Home() {
   // Virtual DOM //
   return (
     <div className="page_container">
+      <Navbar/>
       <div className="home">
         <Create />
         <div className="home_posts">

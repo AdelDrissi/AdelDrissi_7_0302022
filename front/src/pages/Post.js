@@ -1,11 +1,11 @@
 // Imports the necessary dependencies //
-
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { Formik, Form, Field } from 'formik';
 import EditIcon from '@mui/icons-material/Edit';
+import { isEmpty } from '../components/Routes/Utils';
 import DoneIcon from '@mui/icons-material/Done';
 import { AuthContext } from '../helpers/authContext';
 function Post() {
@@ -14,12 +14,13 @@ function Post() {
   let { id } = useParams();
   let navigate = useNavigate();
   const { authState } = useContext(AuthContext);
-  const [post, setPost] = useState('');
+  const [post, setPost] = useState([]);
   const [postForm, setPostForm] = useState(false);
   const [content, setContent] = useState('');
   const [image, setImage] = useState();
   const [comments, setComments] = useState(['']);
   const [newComment, setNewcomment] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   // Declaration of the initial values ​​of the form //
   const initialValues = {
@@ -55,6 +56,11 @@ function Post() {
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  // console.log('post-image:', post.image, isLoading, post[0]);
+  useEffect(() => {
+    !isEmpty(post.image) && setIsLoading(false);
+  }, [post]);
+
   // PUT request //
   const updateContent = (data) => {
     axios
@@ -69,7 +75,7 @@ function Post() {
       });
   };
 
-  // PUT request //
+  // PUT request IMAGE //
   const updateImage = (event) => {
     event.preventDefault();
     const data = new FormData();
@@ -81,7 +87,7 @@ function Post() {
         },
       })
       .then(() => {
-        window.location.replace(`/home/${id}`);
+        window.location.replace(`/post/${id}`);
       });
   };
 
@@ -92,7 +98,7 @@ function Post() {
     axios
       .delete(`${process.env.REACT_APP_API_URL}api/posts/delete/${id}`, {
         headers: {
-          JWToken: sessionStorage.getItem('JWToken'),
+          authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
         },
       })
       .then(() => {
@@ -115,7 +121,7 @@ function Post() {
         },
         {
           headers: {
-            JWToken: sessionStorage.getItem('JWToken'),
+            authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
           },
         }
       )
@@ -145,7 +151,7 @@ function Post() {
         },
       })
       .then(() => {
-        window.location.replace(`/post/${post.id}`);
+        window.location.replace(`/home/${post.id}`);
       });
   };
 
@@ -154,12 +160,10 @@ function Post() {
     <div className="page_container">
       <div className="post_container">
         <div className="post">
-          {/* {(quelOption ===  ((!quelOptionn ===  true) === true)) && (<div> Option A</div>)} */}
-
           {(authState.username === post.username && (
             <>
               <EditIcon
-                onClick={() => setPostForm(!postForm)}
+                onClick={() => setPostForm(postForm)}
                 className="post_button_edit"
               />
             </>
@@ -167,7 +171,7 @@ function Post() {
             (authState.isAdmin === true && (
               <>
                 <EditIcon
-                  onClick={() => setPostForm(!postForm)}
+                  onClick={() => setPostForm(postForm)}
                   className="post_button_edit"
                 />
               </>
@@ -184,46 +188,53 @@ function Post() {
               </div>
             </>
           )}
-          {postForm === false && (
-            <>
-              <Formik initialValues={initialValues} onSubmit={updateContent}>
-                <Form className="create_form">
-                  <Field
-                    as="textarea"
-                    aria-label="modifiez votre publication"
-                    name="content"
-                    placeholder={post.content}
-                    autoComplete="off"
-                  />
-                  <button
-                    className="create_button"
-                    type="submit"
-                    aria-label="valider"
+          {isLoading
+            ? ''
+            : !postForm && (
+                <>
+                  <Formik
+                    initialValues={initialValues}
+                    onSubmit={updateContent}
                   >
-                    Modifiez votre publication
-                  </button>
-                </Form>
-              </Formik>
-              <form className="create_form" onSubmit={updateImage}>
-                <input
-                  type="file"
-                  id="image"
-                  name="image"
-                  accept=".jpeg, .jpg, .png, .gif, .webp"
-                  onChange={(event) => setImage(event.target.files[0])}
-                  aria-label="ajouter une image"
-                />
-                <br />
-                <button
-                  className="create_button"
-                  type="submit"
-                  aria-label="valider"
-                >
-                  Modifiez votre image
-                </button>
-              </form>
-            </>
-          )}
+                    <Form className="create_form">
+                      <Field
+                        as="textarea"
+                        aria-label="modifiez votre publication"
+                        name="content"
+                        placeholder={post.content}
+                        autoComplete="off"
+                      />
+                      <button
+                        className="create_button"
+                        type="submit"
+                        aria-label="valider"
+                      >
+                        Modifiez votre publication
+                      </button>
+                    </Form>
+                  </Formik>
+                  <form className="create_form" onSubmit={updateImage}>
+                    <input
+                      type="file"
+                      id="image"
+                      name="image"
+                      accept=".jpeg, .jpg, .png, .gif, .webp"
+                      onChange={(event) => setImage(event.target.files[0])}
+                      aria-label="ajouter une image"
+                    />
+                    <br />
+                    <button
+                      className="create_button"
+                      type="submit"
+                      aria-label="valider"
+                    >
+                      Modifiez votre image
+                    </button>
+                  </form>
+
+                  <div className="post_image">{post.image && <></>}</div>
+                </>
+              )}
           <div className="post_footer">
             <div
               className="post_username"

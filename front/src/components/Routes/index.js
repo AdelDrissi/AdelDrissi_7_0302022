@@ -5,20 +5,18 @@ import Sign from '../../pages/Sign';
 import Home from '../../pages/Home';
 import User from '../../pages/User';
 import Post from '../../pages/Post';
-import Navbar from '../Navbar';
 import Create from '../Post/Create';
 // Starting point of the index component //
 function index() {
   // Virtual DOM //
   return (
     <Router>
-      <Navbar />
       <Routes>
-        <Route path="/" exact element={<Sign />} />
-        <Route path="/home" exact element={<Home />} />
-        <Route path="/user/:id" exact element={<User />} />
-        <Route path="/post/:id" exact element={<Post />} />
-        <Route path="/post/Create" exact element={<Create />} />
+        <Route path="/" element={<Sign />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/user/:id" element={<User />} />
+        <Route path="/post/:id" element={<Post />} />
+        <Route path="/post/create" element={<Create />} />
       </Routes>
     </Router>
   );

@@ -19,7 +19,7 @@ function Create() {
     axios
       .post(`${process.env.REACT_APP_API_URL}api/posts`, data, {
         headers: {
-          JWToken: sessionStorage.getItem('JWToken'),
+          authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
         },
       })
       .then(() => {
