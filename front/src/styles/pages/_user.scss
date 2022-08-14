@@ -1,0 +1,61 @@
+.upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+  & label {
+    color: $color-2;
+    font-weight: bold;
+  }
+  & button {
+    cursor: pointer;
+    border-radius: 25px;
+    width: 100%;
+    background: $color-2;
+    color: white;
+    border-radius: 35px;
+    font-size: 1.1rem;
+    padding: 5px 20px;
+    border: 2px solid transparent;
+    transition: 300ms ease-out;
+    &:hover {
+      background: rgb(72, 204, 72);
+      transition: 300ms ease-in;
+    }
+  }
+}
+
+.user_image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid $color-1;
+  border-radius: 10px;
+  padding: 0px 25px 25px 25px;
+  background-color: $color-3;
+  box-shadow: $shadow;
+  @media screen and(max-width: 980px) {
+    margin-bottom: 10px;
+  }
+}
+
+img {
+  margin-top: 25px;
+  height: 150px;
+  border: 3px solid $color-1;
+  border-radius: 10px;
+  box-shadow: $shadow;
+}
+
+.user_rightside {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 625px;
+  & h1 {
+    text-align: center;
+    margin-bottom: 15px;
+  }
+}

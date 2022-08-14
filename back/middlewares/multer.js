@@ -10,6 +10,8 @@ const MIME_TYPES = {
 };
 // Check if the file is an image //
 const imageFilter = (req, file, callback) => {
+  console.log(req);
+  console.log(file);
   if (file.mimetype.startsWith('image')) {
     callback(null, true);
   } else {
@@ -31,6 +33,6 @@ const storage = multer.diskStorage({
   },
 });
 // Export multer configuration by indicating to manage a single image type file //
-module.exports = multer({ imageFilter: imageFilter, storage: storage }).single(
+const upload = multer({ imageFilter: imageFilter, storage: storage });
+module.exports = upload;
 
-);

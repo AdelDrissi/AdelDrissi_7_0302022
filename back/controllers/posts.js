@@ -3,12 +3,13 @@ const fs = require('fs');
 
 exports.createPost = async (req, res) => {
   let image;
+  console.log(req.body);
   if (req.body.content === null || !req.body.content) {
     res.status(400).json({ message: 'Content is required.' });
   } else {
     req.file;
     console.log(req.file);
-    image = `${req.protocol}://${req.get('host')}/image/${req.file}`;
+    image = `${req.protocol}://${req.get('host')}/image/${req.file.filename}`;
 
 
     // console.log(image);
