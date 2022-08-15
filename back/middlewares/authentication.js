@@ -29,10 +29,11 @@ module.exports = (req, res, next) => {
     }
 
     try {
+      console.log(req.body.UserId, userId);
       if (req.body.userId && req.body.userId !== userId) {
         // On indique si l'id est le même => false = Id non valide
         console.log('Pas bon');
-        return res.send('Id est pas la meme');
+        return res.send('pas le meme ID');
       } else {
         res.locals.decodedToken = decodedToken;
         next();

@@ -8,9 +8,8 @@ exports.createPost = async (req, res) => {
     res.status(400).json({ message: 'Content is required.' });
   } else {
     req.file;
-    console.log(req.file);
+    // console.log(req.file);
     image = `${req.protocol}://${req.get('host')}/image/${req.file.filename}`;
-
 
     // console.log(image);
     const post = req.body;
