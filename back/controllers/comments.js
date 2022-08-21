@@ -11,19 +11,20 @@ exports.createComment = async (req, res) => {
     res.status(400).json({ message: 'Comment is required.' });
   } else {
     const comment = req.body.comment;
-    const username = req.body.username;
-    const content = req.body.content;
     const CommentsId = req.body.comment.id;
+    const Content = req.body.content;
     Comments.create({
-      username: username,
       comment: comment,
-      content: content,
+      content: Content,
       CommentsId: CommentsId,
     })
       .then((comment) => {
         res
           .status(201)
-          .json({ message: 'Comment created with the ID ' + comment.dataValues.CommentsId });
+          .json({
+            message:
+              'Comment created with the ID ' + comment.dataValues.CommentsId,
+          });
       })
       .catch((error) => {
         res.status(400).json({ error: 'An error has occurred. ' + error });
@@ -34,7 +35,7 @@ exports.createComment = async (req, res) => {
 exports.readComment = async (req, res) => {
   const CommentsId = req.params.id;
   const comments = await Comments.findOne({
-    where: { CommentsId: CommentsId  },
+    where: { CommentsId: CommentsId },
   });
   res.status(200).json(comments);
 };

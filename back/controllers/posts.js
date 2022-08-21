@@ -1,23 +1,21 @@
-const { Posts, Comments, Likes } = require('../models/modelss');
+const { Posts, Comments, Users } = require('../models/modelss');
 const fs = require('fs');
 
 exports.createPost = async (req, res) => {
   let image;
-  console.log(req.body);
+  console.log(req);
   if (req.body.content === null || !req.body.content) {
     res.status(400).json({ message: 'Content is required.' });
   } else {
-    req.file;
-    // console.log(req.file);
+    req.body.file;
+
     image = `${req.protocol}://${req.get('host')}/image/${req.file.filename}`;
 
-    // console.log(image);
     const post = req.body;
-    // console.log(post);
-    post.username = req.body.username;
-    // console.log(post.username);
+    post.content = req.body.content;
     post.image = image;
-    // console.log(post.image);
+    post.UserUserId = req.body.userId;
+    // console.log(req.body.userId);
     Posts.create(post)
       .then((post) => {
         res.status(201).json({
@@ -38,7 +36,10 @@ exports.createPost = async (req, res) => {
 exports.readAllPosts = async (req, res) => {
   try {
     userId = req.params.id;
-    const listOfPosts = await Posts.findAll({ as: [Likes, Comments] });
+    const listOfPosts = await Posts.findAll({
+    
+      include: [{ model: Users , }],
+    });
     res.status(200).json({ listOfPosts: listOfPosts });
     return res.status(400);
   } catch (error) {
@@ -52,8 +53,13 @@ exports.readAllPosts = async (req, res) => {
 // If an error occurs, catch it and return status 400 and the error message //
 exports.readOnePost = (req, res) => {
   PostId = req.params.id;
-  Posts.findOne({ where: { PostId: PostId }, as: 'posts' })
+  Posts.findOne({
+    where: { PostId: PostId },
+    as: 'posts',
+    include: [{ model: Users }],
+  })
     .then((post) => {
+      // console.log(post);
       res.status(200).json(post);
     })
     .catch((error) => {

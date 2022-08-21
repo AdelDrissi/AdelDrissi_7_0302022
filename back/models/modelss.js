@@ -13,12 +13,12 @@ const Comments = sequelize.define('Comments', {
   },
   content: {
     type: DataTypes.TEXT,
-    allowNull: false,
+    allowNull: true,
   },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+  // username: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false,
+  // },
 });
 
 const Posts = sequelize.define('Posts', {
@@ -33,11 +33,7 @@ const Posts = sequelize.define('Posts', {
   },
   image: {
     type: DataTypes.STRING,
-    allowNull: false,
-  },
-  username: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    allowNull: true,
   },
 });
 const Users = sequelize.define('Users', {
@@ -73,24 +69,7 @@ const Users = sequelize.define('Users', {
   },
 });
 
-const Likes = sequelize.define('Likes', {
-  LikesId: {
-    type: DataTypes.SMALLINT(6),
-    primaryKey: true,
-    autoIncrement: true,
-  },
-});
-Users.hasMany(Posts, {
-  as: 'posts',
-  onDelete: 'CASCADE',
-  foreignKey: 'userId',
-});
-
-Posts.belongsTo(Users);
-
-Users.hasMany(Likes, { as: 'likes', onDelete: 'CASCADE' });
-
-Likes.belongsTo(Users);
+Posts.belongsTo(Users, {});
 
 Users.hasMany(Comments, { as: 'comments', onDelete: 'CASCADE' });
 
@@ -100,10 +79,6 @@ Comments.belongsTo(Users, {
 
 Posts.hasMany(Comments, { as: 'comments', onDelete: 'CASCADE' });
 
-Posts.hasMany(Likes, {
-  onDelete: 'cascade',
-});
-
 Comments.belongsTo(Posts);
 
-module.exports = { Comments, Users, Posts, Likes };
+module.exports = { Comments, Users, Posts };

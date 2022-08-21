@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   if (req.headers.authorization == undefined) {
     console.log('Pas de token dans la route ' + req.originalUrl);
   } else {
@@ -29,11 +29,10 @@ module.exports = (req, res, next) => {
     }
 
     try {
-      console.log(req.body.UserId, userId);
       if (req.body.userId && req.body.userId !== userId) {
         // On indique si l'id est le même => false = Id non valide
         console.log('Pas bon');
-        return res.send('pas le meme ID');
+        return res.send(' pas le meme ID');
       } else {
         res.locals.decodedToken = decodedToken;
         next();
