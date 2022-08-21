@@ -2,12 +2,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import Navbar from '../components/Navbar';
 import UpdateEmail from '../components/User/UpdateEmail';
 import Upload from '../components/User/Upload';
 import UpdateBio from '../components/User/UpdateBio';
 import Delete from '../components/User/Delete';
 import UpdatePassword from '../components/User/UpdatePassword';
-
 
 // Starting point of the User page //
 function User() {
@@ -40,6 +40,7 @@ function User() {
 
   return (
     <div className="user">
+      <Navbar />
       <div className="user_profile">
         <div className="user_leftside">
           <div className="user_image">

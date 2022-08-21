@@ -31,10 +31,10 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  border: 3px solid $color-1;
+  border: 3px solid $color-2;
   border-radius: 10px;
   padding: 0px 25px 25px 25px;
-  background-color: $color-3;
+  background-color: $color-1;
   box-shadow: $shadow;
   @media screen and(max-width: 980px) {
     margin-bottom: 10px;
@@ -48,7 +48,6 @@ img {
   border-radius: 10px;
   box-shadow: $shadow;
 }
-
 .user_rightside {
   display: flex;
   flex-direction: column;
@@ -57,5 +56,173 @@ img {
   & h1 {
     text-align: center;
     margin-bottom: 15px;
+  }
+  @media screen and(max-width: 768px) {
+    width: 300px;
+  }
+  @media screen and(max-width: 400px) {
+    margin-top: 5px;
+  }
+}
+
+.user_biography {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid $color-2;
+  border-radius: 10px;
+  background-color: $color-1;
+  box-shadow: $shadow;
+  padding: 5px;
+  height: 100%;
+  @media screen and(max-width: 768px) {
+    flex-direction: column;
+  }
+  @media screen and(max-width: 400px) {
+    margin: 0;
+  }
+
+  & p {
+    border: 2px solid $color-1;
+    border-radius: 10px;
+    background-color: white;
+    text-align: left;
+    min-width: 400px;
+    padding: 15px;
+    @media screen and(max-width: 768px) {
+      min-width: 280px;
+      margin-bottom: 10px;
+    }
+  }
+
+  .user_email_password {
+    display: flex;
+    justify-content: space-between;
+    @media screen and(max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+}
+
+.user_email {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid $color-2;
+  border-radius: 10px;
+  background-color: $color-1;
+  box-shadow: $shadow;
+  width: 45%;
+  @media screen and(max-width: 768px) {
+    width: 100%;
+  }
+  @media screen and(max-width: 400px) {
+    margin-top: 5px;
+    margin-bottom: 0px;
+  }
+  & form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    & input {
+      width: 100%;
+      resize: none;
+      border: 2px solid $color-1;
+      padding: 10px;
+      box-shadow: $shadow;
+      font-size: 0.9rem;
+    }
+  }
+  & button {
+    cursor: pointer;
+    margin: 10px 0;
+    font-size: 1rem;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: $color-2;
+    color: white;
+    transition: 300ms ease-out;
+    &:hover {
+      background: rgb(72, 204, 72);
+      transition: 300ms ease-in;
+    }
+  }
+}
+
+.user_password {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid $color-2;
+  border-radius: 10px;
+  background-color: $color-1;
+  padding: 25px;
+  box-shadow: $shadow;
+  width: 50%;
+  @media screen and(max-width: 768px) {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  @media screen and(max-width: 400px) {
+    margin-top: 5px;
+  }
+  & button {
+    cursor: pointer;
+    margin: 10px 0;
+    font-size: 1rem;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: $color-2;
+    color: white;
+    transition: 300ms ease-out;
+    &:hover {
+      background: #0deb0d;
+      transition: 300ms ease-in;
+    }
+  }
+}
+
+input {
+  width: 100%;
+  resize: none;
+  border: 2px solid $color-1;
+  padding: 10px;
+  box-shadow: $shadow;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.user_delete {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid $color-2;
+  border-radius: 10px;
+  background-color: $color-1;
+  padding: 25px;
+  box-shadow: $shadow;
+  .user_delete_button {
+    cursor: pointer;
+    margin: 10px 0;
+    font-size: 1rem;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: #163972;
+    color: white;
+    transition: 300ms ease-out;
+    &:hover {
+      transform: scale(1.1);
+      transition: 300ms ease-in;
+      background-color: #0deb0d;
+    }
   }
 }

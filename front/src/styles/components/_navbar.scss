@@ -10,7 +10,7 @@
   color: $color-2;
   font-size: clamp(18px, 5vw, 30px);
   padding-top: 100%;
-   &:hover {
+  &:hover {
     color: $color-3;
     cursor: pointer;
   }

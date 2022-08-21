@@ -3,6 +3,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Navbar from '../components/Navbar';
 import { Formik, Form, Field } from 'formik';
 import EditIcon from '@mui/icons-material/Edit';
 import { isEmpty } from '../components/Routes/Utils';
@@ -10,7 +11,6 @@ import DoneIcon from '@mui/icons-material/Done';
 import { AuthContext } from '../helpers/authContext';
 function Post() {
   // Declares useParams, useNavigate, useState and useContext hooks //
-
   let { id } = useParams();
   let navigate = useNavigate();
   const { authState } = useContext(AuthContext);
@@ -127,7 +127,7 @@ function Post() {
       )
       .then((res) => {
         if (res.data.error) {
-          console.log(res.data.error);
+          // console.log(res.data.error);
         } else {
           const CommentToAdd = {
             comment: res.data.comment,
@@ -136,7 +136,7 @@ function Post() {
           };
           setComments([...comments, CommentToAdd]);
           setNewcomment('');
-          window.location.replace(`/home/${id}`);
+          window.location.replace(`/post/${id}`);
         }
       });
   };
@@ -158,6 +158,7 @@ function Post() {
   // Virtual DOM //
   return (
     <div className="page_container">
+      <Navbar />
       <div className="post_container">
         <div className="post">
           {(authState.username === post.username && (
@@ -239,7 +240,7 @@ function Post() {
             <div
               className="post_username"
               onClick={() => {
-                navigate(`/user/${post.UserId}`);
+                navigate(`/user/${post.userId}`);
               }}
             >
               <p>{post.username}</p>
