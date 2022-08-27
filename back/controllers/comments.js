@@ -1,4 +1,4 @@
-const { Comments } = require('../models/modelss');
+const { Comments } = require('../models');
 // Controllers (arranged in the order following the C.R.U.D) //
 
 // If comment is equal to null or if there is no content in the resquest    //
@@ -6,25 +6,29 @@ const { Comments } = require('../models/modelss');
 // Else get the comment from the body of the request                        //
 // Then return status 201 and the confirmation message                      //
 // If an error occurs, catch it and return status 400 and the error message //
-exports.createComment = async (req, res) => {
+exports.createComment = (req, res) => {
+  // console.log(req.body);
+  // console.log(req);
   if (req.body.comment === null || !req.body.comment) {
     res.status(400).json({ message: 'Comment is required.' });
   } else {
     const comment = req.body.comment;
-    const CommentsId = req.body.comment.id;
+    // console.log(req.body.comment);
+    const userId = req.body.userId;
+    // console.log(req.body.userId);
     const Content = req.body.content;
+    const postId = req.body.postId;
     Comments.create({
       comment: comment,
+      userId: userId,
+      postId: Number(postId),
       content: Content,
-      CommentsId: CommentsId,
     })
       .then((comment) => {
+        console.log(comment);
         res
           .status(201)
-          .json({
-            message:
-              'Comment created with the ID ' + comment.dataValues.CommentsId,
-          });
+          .json({ message: 'commentaire créé', comment: comment.dataValues });
       })
       .catch((error) => {
         res.status(400).json({ error: 'An error has occurred. ' + error });
@@ -34,10 +38,10 @@ exports.createComment = async (req, res) => {
 
 exports.readComment = async (req, res) => {
   const CommentsId = req.params.id;
-  const comments = await Comments.findOne({
+  const comment = await Comments.findOne({
     where: { CommentsId: CommentsId },
   });
-  res.status(200).json(comments);
+  res.status(200).json(comment);
 };
 
 exports.updateComment = async (req, res) => {

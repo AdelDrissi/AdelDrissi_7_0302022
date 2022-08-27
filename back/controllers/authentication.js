@@ -1,14 +1,13 @@
 const bcrypt = require('bcrypt');
 const JWT = require('jsonwebtoken');
-const { Users } = require('../models/modelss');
+const {Users} = require('../models');
 
-exports.signUp = (req, res) => {
+exports.signUp = async (req, res) => {
   const { username, email, password } = req.body;
-
-  Users.findOne({ where: { email: email } }).then((exist) => {
+  await Users.findOne({ where: { email: email } }).then((exist) => {
     if (exist) {
       return res
-        .status(409)
+        .status(400)
         .json({ error: 'Email ' + email + ' is already in use' });
     } else {
       Users.findOne({ where: { username: username } })
@@ -37,7 +36,7 @@ exports.signUp = (req, res) => {
             });
           } else {
             return res
-              .status(409)
+              .status(400)
               .json({ error: 'Username ' + username + ' is already in use' });
           }
         })
@@ -50,12 +49,12 @@ exports.signUp = (req, res) => {
   });
 };
 
-exports.signIn = (req, res) => {
+exports.signIn = async (req, res) => {
   const { email, password } = req.body;
   if (email == null || password == null) {
     return res.status(400).json({ error: 'Missing parameters.' });
   }
-  Users.findOne({ where: { email: email } })
+  await Users.findOne({ where: { email: email } })
     .then((user) => {
       if (user) {
         bcrypt.compare(password, user.password).then((match) => {
@@ -96,16 +95,14 @@ exports.signIn = (req, res) => {
 exports.auth = (req, res) => {
   Users.findOne({
     where: { userId: res.locals.decodedToken.userId },
-    attributes :{
-      exclude :["password"]
-    }
+    attributes: {
+      exclude: ['password'],
+    },
   })
-    .then(result => {
-      res.status(200).json(result.dataValues)
+    .then((result) => {
+      res.status(200).json(result.dataValues);
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
-    })
-
- 
+    });
 };

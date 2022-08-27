@@ -1,9 +1,9 @@
-const { Posts, Comments, Users } = require('../models/modelss');
+const { Posts, Users, Comments } = require('../models');
+
 const fs = require('fs');
 
-exports.createPost = async (req, res) => {
+exports.createPost = (req, res) => {
   let image;
-  console.log(req);
   if (req.body.content === null || !req.body.content) {
     res.status(400).json({ message: 'Content is required.' });
   } else {
@@ -14,14 +14,17 @@ exports.createPost = async (req, res) => {
     const post = req.body;
     post.content = req.body.content;
     post.image = image;
-    post.UserUserId = req.body.userId;
+    post.comment = req.body.comment;
+    post.userId = req.body.userId;
     // console.log(req.body.userId);
+
     Posts.create(post)
       .then((post) => {
         res.status(201).json({
           message: 'Post created with the ID ' + post.dataValues.PostId,
         });
       })
+
       .catch((error) => {
         res.status(400).json({ error: 'An error has occurred. ' + error });
       });
@@ -37,8 +40,7 @@ exports.readAllPosts = async (req, res) => {
   try {
     userId = req.params.id;
     const listOfPosts = await Posts.findAll({
-    
-      include: [{ model: Users , }],
+      include: [{ model: Users, Comments }],
     });
     res.status(200).json({ listOfPosts: listOfPosts });
     return res.status(400);
@@ -51,13 +53,9 @@ exports.readAllPosts = async (req, res) => {
 // Find one post of posts tables in the database                            //
 // Then return status 200 and the post                                      //
 // If an error occurs, catch it and return status 400 and the error message //
-exports.readOnePost = (req, res) => {
-  PostId = req.params.id;
-  Posts.findOne({
-    where: { PostId: PostId },
-    as: 'posts',
-    include: [{ model: Users }],
-  })
+exports.readOnePost = async (req, res) => {
+  postId = req.params.id;
+  await Posts.findOne({ where: { postId: req.params.id }, include: Comments })
     .then((post) => {
       // console.log(post);
       res.status(200).json(post);

@@ -3,20 +3,18 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import DoneIcon from '@mui/icons-material/Done';
 
-
-// Start of Create component // 
+// Start of Create component //
 function Create() {
-
   // Declare useNavigate hook //
   const [content, setContent] = useState('');
   const [image, setImage] = useState();
-
   // POST request to create a new post //
   const handlePost = (event) => {
     event.preventDefault();
     const data = new FormData();
     data.append('content', content);
     data.append('image', image);
+    data.append('userId', sessionStorage.getItem('userId'));
     axios
       .post(`${process.env.REACT_APP_API_URL}api/posts`, data, {
         headers: {

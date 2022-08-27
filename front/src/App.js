@@ -38,7 +38,7 @@ function App() {
           image: res.data.image,
           isAdmin: res.data.isAdmin,
         });
-        console.log(res);
+        // console.log(res);
       }
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

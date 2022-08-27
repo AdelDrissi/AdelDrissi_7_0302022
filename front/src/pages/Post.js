@@ -14,12 +14,14 @@ function Post() {
   let { id } = useParams();
   let navigate = useNavigate();
   const { authState } = useContext(AuthContext);
+  console.log(authState);
   const [post, setPost] = useState([]);
+  // console.log(post.userId);
   const [postForm, setPostForm] = useState(false);
   const [content, setContent] = useState('');
   const [image, setImage] = useState();
-  const [comments, setComments] = useState(['']);
-  const [newComment, setNewcomment] = useState('');
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewcomment] = useState(['']);
   const [isLoading, setIsLoading] = useState(true);
 
   // Declaration of the initial values ​​of the form //
@@ -41,18 +43,15 @@ function Post() {
         })
         .then((res) => {
           setPost(res.data);
+          // console.log(res.data);
           setContent(res.data.content);
           setImage(res.data.image);
         });
-      axios
-        .get(`${process.env.REACT_APP_API_URL}api/comments/read/${id}`, {
-          headers: {
-            JWToken: sessionStorage.getItem('JWToken'),
-          },
-        })
-        .then((res) => {
-          setComments(res.data);
-        });
+      axios.get(`${process.env.REACT_APP_API_URL}api/comments/read/${id}`, {
+        headers: {
+          authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
+        },
+      });
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -110,6 +109,10 @@ function Post() {
   // Checks if the user has a valid token                   //
   // Returns the response as a new comment                  //
 
+  const userIdStorage = sessionStorage.getItem('userId');
+  const idStorage = JSON.parse(userIdStorage);
+
+  useEffect(() => {}, []);
   const createComment = (event) => {
     event.preventDefault();
     axios
@@ -117,7 +120,9 @@ function Post() {
         `${process.env.REACT_APP_API_URL}api/comments`,
         {
           comment: newComment,
-          PostId: id,
+          postId: id,
+          userId: idStorage,
+          content: content,
         },
         {
           headers: {
@@ -125,29 +130,22 @@ function Post() {
           },
         }
       )
+
       .then((res) => {
+        console.log(res);
         if (res.data.error) {
-          // console.log(res.data.error);
         } else {
-          const CommentToAdd = {
-            comment: res.data.comment,
-            username: res.data.username,
-            id: res.data.id,
-          };
-          setComments([...comments, CommentToAdd]);
-          setNewcomment('');
-          window.location.replace(`/post/${id}`);
+          setComments(() => [res.data.comment]);
         }
       });
   };
 
   // DELETE request //
-
   const deleteComment = (id) => {
     axios
       .delete(`${process.env.REACT_APP_API_URL}api/comments/delete/${id}`, {
         headers: {
-          JWToken: sessionStorage.getItem('JWToken'),
+          authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
         },
       })
       .then(() => {
@@ -240,12 +238,12 @@ function Post() {
             <div
               className="post_username"
               onClick={() => {
-                navigate(`/user/${post.userId}`);
+                navigate(`/user/${post.username}`);
               }}
             >
               <p>{post.username}</p>
             </div>
-            {(authState.username === post.username && (
+            {(authState.id === post.userId && (
               <>
                 <div className="post_button">
                   <DeleteIcon
@@ -257,7 +255,7 @@ function Post() {
                 </div>
               </>
             )) ||
-              (authState.isAdmin === true && (
+              (authState.isAdmin === false && (
                 <>
                   <div className="post_button">
                     <DeleteIcon

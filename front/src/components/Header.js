@@ -2,6 +2,7 @@
 import React from 'react';
 import Logo from '../image/icon-left-font-monochrome-white.png';
 
+
 // Starting point of the Header component //
 function Header() {
   // Virtual DOM //

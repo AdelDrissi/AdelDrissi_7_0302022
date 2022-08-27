@@ -20,6 +20,7 @@ function Home() {
       // Makes a GET request to grab all data in the posts table //
       // Checks if the user has a valid token                    //
       // Then returns the lists receveid from the API            //
+
       axios
         .get(`${process.env.REACT_APP_API_URL}api/posts/readpostall`, {
           headers: {
@@ -33,14 +34,12 @@ function Home() {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-
   // Checks if the user has a valid token                                //
   // Then returns the response                                           //
   // Grabs the post in the posts list                                    //
   // If the id of the post is equal to the PostId                        //
   // If the post do not have a Like, returns it with only the like added //
   // Else if the post has a like, returns it with only the like removed  //
-
 
   // Virtual DOM //
   return (
@@ -52,20 +51,10 @@ function Home() {
           {listOfPosts.map((value, key) => {
             return (
               <div className="home_post" key={key}>
-                <div
-                  className="home_post_content"
-                  onClick={() => {
-                    navigate(`${value.id}`);
-                  }}
-                >
+                <div className="home_post_content" onClick={() => {}}>
                   {value.content}
                 </div>
-                <div
-                  className="home_post_image"
-                  onClick={() => {
-                    navigate(`/home/${value.id}`);
-                  }}
-                >
+                <div className="home_post_image" onClick={() => {}}>
                   {value.image && (
                     <>
                       <img src={value.image} alt="illustration du post" />
@@ -83,8 +72,7 @@ function Home() {
                   >
                     <CommentIcon className="home_post_comment" />
                   </div>
-                  <div className="home_post_buttons">
-                  </div>
+                  <div className="home_post_buttons"></div>
                 </div>
               </div>
             );

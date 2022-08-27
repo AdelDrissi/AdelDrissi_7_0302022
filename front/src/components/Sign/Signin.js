@@ -24,6 +24,7 @@ function SignIn() {
           passwordError.innerHTML = res.data.errors.password;
         } else {
           sessionStorage.setItem('JWToken', res.data.token);
+          sessionStorage.setItem('userId', res.data.id);
           window.location = '/home';
         }
       })

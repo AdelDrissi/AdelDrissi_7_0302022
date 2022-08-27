@@ -6,6 +6,15 @@
   padding: 5px;
 }
 
+.home {
+  width: 100%;
+  margin-top: 25px;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
 .home_posts {
   display: flex;
   flex-direction: column-reverse;
