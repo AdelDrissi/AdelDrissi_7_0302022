@@ -3,6 +3,9 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const path = require('path');
+const db = require('./models');
+
+db.sequelize.sync({ alter: true });
 
 const userRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');

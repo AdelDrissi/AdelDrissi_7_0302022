@@ -14,7 +14,6 @@ function Post() {
   let { id } = useParams();
   let navigate = useNavigate();
   const { authState } = useContext(AuthContext);
-  console.log(authState);
   const [post, setPost] = useState([]);
   // console.log(post.userId);
   const [postForm, setPostForm] = useState(false);
@@ -159,22 +158,15 @@ function Post() {
       <Navbar />
       <div className="post_container">
         <div className="post">
-          {(authState.username === post.username && (
+          {(authState.id === post.userId || authState.isAdmin) && (
             <>
               <EditIcon
                 onClick={() => setPostForm(postForm)}
                 className="post_button_edit"
               />
             </>
-          )) ||
-            (authState.isAdmin === true && (
-              <>
-                <EditIcon
-                  onClick={() => setPostForm(postForm)}
-                  className="post_button_edit"
-                />
-              </>
-            ))}
+          )}
+          ||
           {postForm === false && (
             <>
               <div className="post_content">{post.content}</div>
@@ -243,30 +235,19 @@ function Post() {
             >
               <p>{post.username}</p>
             </div>
-            {(authState.id === post.userId && (
+            {(authState.id === post.userId || authState.isAdmin) && (
               <>
                 <div className="post_button">
                   <DeleteIcon
                     className="post_button_delete"
                     onClick={() => {
-                      deletePost(post.id);
+                      deletePost(post.PostId);
                     }}
                   />
                 </div>
               </>
-            )) ||
-              (authState.isAdmin === false && (
-                <>
-                  <div className="post_button">
-                    <DeleteIcon
-                      className="post_button_delete"
-                      onClick={() => {
-                        deletePost(post.id);
-                      }}
-                    />
-                  </div>
-                </>
-              ))}
+            )}
+            ||
           </div>
         </div>
         <div className="commment_container">

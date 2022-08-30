@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import Create from '../components/Post/Create';
+import DeleteIcon from '@mui/icons-material/Delete';
 import Navbar from '../components/Navbar';
 function Home() {
   // Declares useNavigate and useStates hooks //
@@ -60,6 +61,7 @@ function Home() {
                       <img src={value.image} alt="illustration du post" />
                     </>
                   )}
+                  
                 </div>
                 <div className="home_post_footer">
                   <div className="home_post_username">
@@ -67,14 +69,15 @@ function Home() {
                   </div>
                   <div
                     onClick={() => {
-                      navigate(`/post/${value.id}`);
+                      navigate(`/post/${value.PostId}`);
                     }}
                   >
                     <CommentIcon className="home_post_comment" />
                   </div>
                   <div className="home_post_buttons"></div>
+                  <DeleteIcon/>
                 </div>
-              </div>
+              </div> 
             );
           })}
         </div>

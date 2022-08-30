@@ -77,7 +77,6 @@ ul {
 .home {
   width: 100%;
   margin-top: 25px;
-  text-align: center;
   justify-content: center;
   display: flex;
   flex-direction: column;
@@ -87,7 +86,6 @@ ul {
   display: flex;
   flex-direction: column-reverse;
   margin-top: 25px;
-  max-width: 1000px;
 }
 
 .home_post {
