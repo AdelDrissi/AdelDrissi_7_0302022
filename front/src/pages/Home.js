@@ -66,6 +66,7 @@ function Home() {
       .then((res) => {
         console.log(res.data);
         setListOfComments(res.data);
+        console.log(listOfComments);
       });
   };
 
@@ -162,8 +163,10 @@ function Home() {
                     </>
                   )}
                 </div>
+                <button onclick={GetComment(value.PostId)}>
+                  voir les commentaires
+                </button>
               </div>
-              
             );
           })}
         </div>
