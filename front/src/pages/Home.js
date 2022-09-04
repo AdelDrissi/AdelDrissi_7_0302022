@@ -69,6 +69,14 @@ function Home() {
       });
   };
 
+  const deleteComment = (id) => {
+    axios.delete(`${process.env.REACT_APP_API_URL}api/comments/delete/${id}`, {
+      headers: {
+        authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
+      },
+    });
+  };
+
   // Checks if the user has a valid token                                //
   // Then returns the response                                           //
   // Grabs the post in the posts list                                    //
@@ -114,28 +122,26 @@ function Home() {
                           {((authState.id === comment.userId ||
                             authState.isAdmin) && (
                             <>
+                              <deleteComment />
                               <button
                                 className="home_post_comment"
                                 aria-label="ajouter un commentaire"
                                 onClick={() => {
-                                  GetComment(comment.PostsId);
+                                  deleteComment(comment.PostsId);
                                 }}
-                              >
-                                <CommentIcon />
-                              </button>
+                              ></button>
                             </>
                           )) ||
                             (authState.isAdmin === true && (
                               <>
+                                <CommentIcon />
                                 <button
                                   className="home_post_comment"
                                   aria-label="ajouter un  commentaire"
                                   onClick={() => {
                                     GetComment(comment.PostsId);
                                   }}
-                                >
-                                  <CommentIcon />
-                                </button>
+                                ></button>
                               </>
                             ))}
                         </div>
@@ -157,6 +163,7 @@ function Home() {
                   )}
                 </div>
               </div>
+              
             );
           })}
         </div>
