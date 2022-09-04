@@ -119,7 +119,7 @@ function Post() {
         `${process.env.REACT_APP_API_URL}api/comments`,
         {
           comment: newComment,
-          postId: id,
+          PostId: id,
           userId: idStorage,
           content: content,
         },
@@ -131,7 +131,7 @@ function Post() {
       )
 
       .then((res) => {
-        console.log(res);
+        // console.log(res);
         if (res.data.error) {
         } else {
           setComments(() => [res.data.comment]);
@@ -148,7 +148,7 @@ function Post() {
         },
       })
       .then(() => {
-        window.location.replace(`/home/${post.id}`);
+        navigate(`/home`);
       });
   };
 
@@ -275,13 +275,13 @@ function Post() {
                 <div className="comment_content">{comment.comment}</div>
                 <div className="comment_username_button">
                   <p>{comment.username}</p>
-                  {(authState.username === comment.username && (
+                  {(authState.username !== comment.username && (
                     <>
                       <button
                         className="comment_delete_button"
                         aria-label="supprimer le commentaire"
                         onClick={() => {
-                          deleteComment(comment.id);
+                          deleteComment(comment.CommentsId);
                         }}
                       >
                         <DeleteIcon />
@@ -294,7 +294,7 @@ function Post() {
                           className="comment_delete_button"
                           aria-label="supprimer le commentaire"
                           onClick={() => {
-                            deleteComment(comment.id);
+                            deleteComment(comment.CommentsId);
                           }}
                         >
                           <DeleteIcon />

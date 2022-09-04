@@ -8,6 +8,9 @@ router.post('/', JWT, Ctrl.createComment);
 //GET request to the comments route//
 router.get('/read/:id', JWT, Ctrl.readComment);
 
+//GET request to the comments route for each post //
+router.get('/read/commentsToPost/:id', JWT, Ctrl.GetComment);
+
 //PUT request to the comments route//
 router.put('/update/:id', JWT, Ctrl.updateComment);
 

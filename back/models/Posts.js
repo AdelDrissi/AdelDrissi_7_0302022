@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
+
       content: {
         type: DataTypes.TEXT,
         allowNull: false,

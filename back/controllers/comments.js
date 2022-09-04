@@ -1,4 +1,4 @@
-const { Comments } = require('../models');
+const { Comments, Users } = require('../models');
 // Controllers (arranged in the order following the C.R.U.D) //
 
 // If comment is equal to null or if there is no content in the resquest    //
@@ -17,11 +17,11 @@ exports.createComment = (req, res) => {
     const userId = req.body.userId;
     // console.log(req.body.userId);
     const Content = req.body.content;
-    const postId = req.body.postId;
+    const PostId = req.body.PostId;
     Comments.create({
       comment: comment,
       userId: userId,
-      postId: Number(postId),
+      PostId: Number(PostId),
       content: Content,
     })
       .then((comment) => {
@@ -33,6 +33,32 @@ exports.createComment = (req, res) => {
       .catch((error) => {
         res.status(400).json({ error: 'An error has occurred. ' + error });
       });
+  }
+};
+
+exports.GetComment = (req, res) => {
+  try {
+    const IdPost = req.params.id;
+    Comments.findAll({
+      where: { PostId: IdPost },
+      include: [
+        // { model: Posts, attributes: ['PostId'] },
+        // { model: Comments, attributes: ['comment'] },
+        { model: Users, attributes: ['username'] },
+      ],
+    })
+      .then((Comments) =>
+        res.json({
+          data: Comments,
+        })
+      )
+      .catch((err) =>
+        res.status(500).json({
+          error: err,
+        })
+      );
+  } catch (error) {
+    res.status(400).json({ error: 'An error has occurred. ' + error });
   }
 };
 

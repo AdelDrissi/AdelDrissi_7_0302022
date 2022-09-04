@@ -5,12 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import CommentIcon from '@mui/icons-material/Comment';
 import Create from '../components/Post/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 import Navbar from '../components/Navbar';
 import { AuthContext } from '../helpers/authContext';
 function Home() {
   // Declares useNavigate and useStates hooks //
   let navigate = useNavigate();
   const [listOfPosts, setListOfPosts] = useState([]);
+  const [listOfComments, setListOfComments] = useState([]);
   const { authState } = useContext(AuthContext);
   // Executes this function immediately when the page the page is opened //
   useEffect(() => {
@@ -44,8 +46,26 @@ function Home() {
           authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
         },
       })
+
       .then(() => {
         navigate('/home');
+      });
+  };
+
+  const GetComment = (id) => {
+    axios
+      .get(
+        `${process.env.REACT_APP_API_URL}api/comments//read/commentsToPost/${id}`,
+        {
+          headers: {
+            authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
+          },
+        }
+      )
+
+      .then((res) => {
+        console.log(res.data);
+        setListOfComments(res.data);
       });
   };
 
@@ -67,8 +87,10 @@ function Home() {
             return (
               <div className="home_post" key={key}>
                 <div className="home_post_content" onClick={() => {}}>
+                  <EditIcon />
                   {value.content}
                 </div>
+
                 <div className="home_post_image" onClick={() => {}}>
                   {value.image && (
                     <>
@@ -80,13 +102,46 @@ function Home() {
                   <div className="home_post_username">
                     <p>{value.User.username}</p>
                   </div>
-                  <div
-                    onClick={() => {
-                      navigate(`/post/${value.PostId}`);
-                    }}
-                  >
-                    <CommentIcon className="home_post_comment" />
-                  </div>
+
+                  {listOfComments.map((comment, key) => {
+                    return (
+                      <div className="home_post_comment" key={key}>
+                        <div className="home_post_comment">
+                          {comment.comment}
+                        </div>
+                        <div className="home_post_comment">
+                          <p>{comment.username}</p>
+                          {((authState.id === comment.userId ||
+                            authState.isAdmin) && (
+                            <>
+                              <button
+                                className="home_post_comment"
+                                aria-label="ajouter un commentaire"
+                                onClick={() => {
+                                  GetComment(comment.PostsId);
+                                }}
+                              >
+                                <CommentIcon />
+                              </button>
+                            </>
+                          )) ||
+                            (authState.isAdmin === true && (
+                              <>
+                                <button
+                                  className="home_post_comment"
+                                  aria-label="ajouter un  commentaire"
+                                  onClick={() => {
+                                    GetComment(comment.PostsId);
+                                  }}
+                                >
+                                  <CommentIcon />
+                                </button>
+                              </>
+                            ))}
+                        </div>
+                      </div>
+                    );
+                  })}
                   <div className="home_post_buttons"></div>
                   {(authState.id === value.userId || authState.isAdmin) && (
                     <>

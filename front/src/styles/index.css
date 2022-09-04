@@ -479,7 +479,7 @@ input {
 .post_button .post_button_delete {
   margin-right: 10px;
   cursor: pointer;
-  color: #c23c21;
+  color: #163972;
 }
 .post_button .post_button_delete:hover {
   transform: scale(1.3);
@@ -574,7 +574,7 @@ input {
 
 .comment_delete_button {
   cursor: pointer;
-  color: #c23c21;
+  color: #163972;
   background-color: #ee9e9e;
   padding: 5px;
   border: none;

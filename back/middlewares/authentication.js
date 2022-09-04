@@ -29,6 +29,7 @@ module.exports = async (req, res, next) => {
     }
 
     
+
     try {
       if (req.body.userId && req.body.userId !== userId) {
         // On indique si l'id est le même => false = Id non valide
@@ -43,4 +44,3 @@ module.exports = async (req, res, next) => {
     }
   }
 };
-

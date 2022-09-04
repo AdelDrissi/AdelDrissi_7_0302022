@@ -2,7 +2,7 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Comments extends Model {
     static associate = (models) => {
-     this.belongsTo(models.Posts, { foreignKey: 'PostId' });
+      this.belongsTo(models.Posts, { foreignKey: 'PostId' });
       this.belongsTo(models.Users, {
         foreignKey: 'userId',
       });
@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      // userId: {
+      //   type: DataTypes.SMALLINT(6),
+      // },
       comment: {
         type: DataTypes.TEXT,
         allowNull: false,
