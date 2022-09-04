@@ -163,7 +163,7 @@ function Home() {
                     </>
                   )}
                 </div>
-                <button onclick={GetComment(value.PostId)}>
+                <button onClick={GetComment(value.PostId)}>
                   voir les commentaires
                 </button>
               </div>
