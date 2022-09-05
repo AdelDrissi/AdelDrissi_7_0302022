@@ -55,7 +55,7 @@ function Home() {
   const GetComment = (id) => {
     axios
       .get(
-        `${process.env.REACT_APP_API_URL}api/comments//read/commentsToPost/${id}`,
+        `${process.env.REACT_APP_API_URL}api/comments/read/commentsToPost/${id}`,
         {
           headers: {
             authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
@@ -64,9 +64,8 @@ function Home() {
       )
 
       .then((res) => {
-        console.log(res.data);
-        setListOfComments(res.data);
-        console.log(listOfComments);
+        console.log(res.data.data);
+        setListOfComments(res.data.data);
       });
   };
 
@@ -78,12 +77,12 @@ function Home() {
     });
   };
 
-  // Checks if the user has a valid token                                //
-  // Then returns the response                                           //
-  // Grabs the post in the posts list                                    //
-  // If the id of the post is equal to the PostId                        //
-  // If the post do not have a Like, returns it with only the like added //
-  // Else if the post has a like, returns it with only the like removed  //
+  //   // Checks if the user has a valid token                                //
+  //   // Then returns the response                                           //
+  //   // Grabs the post in the posts list                                    //
+  //   // If the id of the post is equal to the PostId                        //
+  //   // If the post do not have a Like, returns it with only the like added //
+  //   // Else if the post has a like, returns it with only the like removed  //
 
   // Virtual DOM //
   return (
@@ -99,7 +98,6 @@ function Home() {
                   <EditIcon />
                   {value.content}
                 </div>
-
                 <div className="home_post_image" onClick={() => {}}>
                   {value.image && (
                     <>
@@ -111,44 +109,6 @@ function Home() {
                   <div className="home_post_username">
                     <p>{value.User.username}</p>
                   </div>
-
-                  {listOfComments.map((comment, key) => {
-                    return (
-                      <div className="home_post_comment" key={key}>
-                        <div className="home_post_comment">
-                          {comment.comment}
-                        </div>
-                        <div className="home_post_comment">
-                          <p>{comment.username}</p>
-                          {((authState.id === comment.userId ||
-                            authState.isAdmin) && (
-                            <>
-                              <deleteComment />
-                              <button
-                                className="home_post_comment"
-                                aria-label="ajouter un commentaire"
-                                onClick={() => {
-                                  deleteComment(comment.PostsId);
-                                }}
-                              ></button>
-                            </>
-                          )) ||
-                            (authState.isAdmin === true && (
-                              <>
-                                <CommentIcon />
-                                <button
-                                  className="home_post_comment"
-                                  aria-label="ajouter un  commentaire"
-                                  onClick={() => {
-                                    GetComment(comment.PostsId);
-                                  }}
-                                ></button>
-                              </>
-                            ))}
-                        </div>
-                      </div>
-                    );
-                  })}
                   <div className="home_post_buttons"></div>
                   {(authState.id === value.userId || authState.isAdmin) && (
                     <>
@@ -163,9 +123,40 @@ function Home() {
                     </>
                   )}
                 </div>
-                <button onClick={GetComment(value.PostId)}>
-                  voir les commentaires
+                <button onClick={() => GetComment(value.PostId)}>
+                  <CommentIcon />
                 </button>
+              </div>
+            );
+          })}
+
+          {listOfComments.map((comment, key) => {
+            return (
+              <div className="comment_container" key={key}>
+                <div className="comment_content">{comment.comment}</div>
+                <div className="comment_username_button">
+                  <p>{comment.username}</p>
+                  {((authState.id === comment.userId || authState.isAdmin) && (
+                    <>
+                      <DeleteIcon />
+                      <button
+                        className="comment_delete_button"
+                        aria-label="supprimer un commentaire"
+                        onClick={() => {
+                          deleteComment(comment.PostsId);
+                        }}
+                      ></button>
+                    </>
+                  )) ||
+                    (authState.isAdmin === true && (
+                      <>
+                        <button
+                          className="home_post_comment"
+                          aria-label="ajouter un  commentaire"
+                        ></button>
+                      </>
+                    ))}
+                </div>
               </div>
             );
           })}

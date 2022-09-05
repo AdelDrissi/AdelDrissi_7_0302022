@@ -1,6 +1,5 @@
 const { Comments, Users } = require('../models');
 // Controllers (arranged in the order following the C.R.U.D) //
-
 // If comment is equal to null or if there is no content in the resquest    //
 // Return status 400 and the error message                                  //
 // Else get the comment from the body of the request                        //
