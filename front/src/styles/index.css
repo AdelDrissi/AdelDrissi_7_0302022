@@ -108,7 +108,9 @@ ul {
 }
 
 .home_post_image {
-  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 .home_post_image img {
   width: clamp(250px, 20vw, 500px);

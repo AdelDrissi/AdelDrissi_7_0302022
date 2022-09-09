@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import DoneIcon from '@mui/icons-material/Done';
+import Navbar from '../Navbar';
 
 // Start of Create component //
 function Create() {
@@ -29,6 +30,7 @@ function Create() {
   // Vitual DOM //
   return (
     <div className="create">
+      <Navbar/>
       <form className="create_form" onSubmit={handlePost}>
         <textarea
           name="content"
