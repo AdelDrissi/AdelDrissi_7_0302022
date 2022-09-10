@@ -10,14 +10,13 @@ import axios from 'axios';
 function BlocComments({ value }) {
   console.log(value);
 
-  
   // const { authState } = useContext(AuthContext);
   // let navigate = useNavigate();
 
-//   const clickedComments = () => {
-//     GetCommment(1);
-//     setShowInput(!showInput);
-//   };
+  //   const clickedComments = () => {
+  //     GetCommment(1);
+  //     setShowInput(!showInput);
+  //   };
 
   // DELETE request //
   // const deleteComment = (id) => {
@@ -34,11 +33,10 @@ function BlocComments({ value }) {
 
   return (
     <>
-      
-      
-
-
       <div className="comments_post_home">
+        {value.map((value) => {
+          return <p className="name_paragraphe">Hello tout le monde !</p>;
+        })}
       </div>
     </>
   );

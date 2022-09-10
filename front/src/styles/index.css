@@ -48,13 +48,9 @@ ul {
 }
 
 .navbar_welcome {
-  color: #163972;
+  color: black;
   font-size: clamp(18px, 5vw, 30px);
   padding-top: 100%;
-}
-.navbar_welcome:hover {
-  color: #ee9e9e;
-  cursor: pointer;
 }
 
 .navbar_icon {
@@ -67,11 +63,10 @@ ul {
 }
 
 .create {
-  display: flex;
   border: 3px solid #163972;
   border-radius: 15px;
   background-color: #c23c21;
-  padding: 5px;
+  margin-top: 1%;
 }
 
 .home {
@@ -82,10 +77,22 @@ ul {
   flex-direction: column;
 }
 
+.comments_post_home {
+  justify-content: center;
+  display: flex;
+  position: relative;
+  top: -3rem;
+}
+
 .home_posts {
   display: flex;
   flex-direction: column-reverse;
   margin-top: 25px;
+}
+
+.post_button_edit {
+  display: flex;
+  justify-content: center;
 }
 
 .home_post {
@@ -103,7 +110,7 @@ ul {
   border: 1px solid #c23c21;
   border-radius: 5px;
   background-color: white;
-  text-align: left;
+  text-align: center;
   margin-bottom: 10px;
 }
 
@@ -193,16 +200,10 @@ img {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 625px;
 }
 .user_rightside h1 {
   text-align: center;
   margin-bottom: 15px;
-}
-@media screen and (max-width: 768px) {
-  .user_rightside {
-    width: 300px;
-  }
 }
 @media screen and (max-width: 400px) {
   .user_rightside {
@@ -265,7 +266,6 @@ img {
   border-radius: 10px;
   background-color: #c23c21;
   box-shadow: 0px 2px 4px 2px gray;
-  width: 45%;
 }
 @media screen and (max-width: 768px) {
   .user_email {
@@ -318,13 +318,6 @@ img {
   background-color: #c23c21;
   padding: 25px;
   box-shadow: 0px 2px 4px 2px gray;
-  width: 50%;
-}
-@media screen and (max-width: 768px) {
-  .user_password {
-    margin-bottom: 20px;
-    width: 100%;
-  }
 }
 @media screen and (max-width: 400px) {
   .user_password {
@@ -428,9 +421,8 @@ input {
   cursor: pointer;
   display: flex;
   align-self: flex-end;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-right: 10px;
+  margin-bottom: 15px;
+  margin-left: 1%;
   color: #163972;
 }
 .post_button_edit:hover {
@@ -465,7 +457,6 @@ input {
 }
 
 .post_button {
-  display: flex;
   align-items: center;
   transform: scale(1.2);
 }
@@ -547,7 +538,6 @@ input {
   background-color: #ee9e9e;
   padding: 5px;
   margin-bottom: 5px;
-  width: 90%;
 }
 .comment_container .comment_content {
   min-height: 50px;

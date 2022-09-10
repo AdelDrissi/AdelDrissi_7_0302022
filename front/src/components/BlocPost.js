@@ -103,6 +103,7 @@ function BlocPost({ value }) {
             <div className="home_post_username">
               <p>{value.User.username}</p>
             </div>
+
             <div className="home_post_buttons">
               {(authState.id === value.userId || authState.isAdmin) && (
                 <>
@@ -119,13 +120,13 @@ function BlocPost({ value }) {
               ||
             </div>
           </div>
-
-          <div className="comments_post_home">
+            <div className="comments_post_home">
             <button onClick={() => clickedComments()}>
-              <CommentIcon />
+          <CommentIcon />
             </button>
           </div>
         </div>
+
 
         <button
           onClick={() => {
@@ -135,6 +136,7 @@ function BlocPost({ value }) {
       </div>
       {showInput ? (
         <>
+        
           {CommentsOne ? (
             <div className="comment_container">
               <div className="comment_content">{CommentsOne.comment}</div>

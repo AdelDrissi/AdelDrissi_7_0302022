@@ -37,9 +37,8 @@
   cursor: pointer;
   display: flex;
   align-self: flex-end;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-right: 10px;
+  margin-bottom: 15px;
+  margin-left: 1%;
   color: $color-2;
   &:hover {
     transform: scale(1.3);
@@ -73,7 +72,6 @@
 }
 
 .post_button {
-  display: flex;
   align-items: center;
   transform: scale(1.2);
   .post_button_edit {
@@ -151,7 +149,6 @@
   background-color: $color-3;
   padding: 5px;
   margin-bottom: 5px;
-  width: 90%;
   .comment_content {
     min-height: 50px;
     border: 1px solid $color-1;

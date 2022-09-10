@@ -7,13 +7,9 @@
 }
 
 .navbar_welcome {
-  color: $color-2;
+  color: black;
   font-size: clamp(18px, 5vw, 30px);
   padding-top: 100%;
-  &:hover {
-    color: $color-3;
-    cursor: pointer;
-  }
 }
 
 .navbar_icon {

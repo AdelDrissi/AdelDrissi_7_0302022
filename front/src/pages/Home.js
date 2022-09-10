@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Create from '../components/Post/Create';
 import BlocPosts from '../components/BlocPost';
-import BlocComment from '../components/BlocComments';
+import BlocComments from '../components/BlocComments';
 // import { AuthContext } from '../helpers/authContext';
 
 function Home() {
@@ -115,8 +115,9 @@ function Home() {
         {listOfPosts.map((value, index) => {
           return <BlocPosts value={value} key={index} />;
         })}
-        {listOfComments.map((value, key) => {
-          return <BlocComment value={value} key={key} />;
+        {listOfComments.map((listOfComments) => {
+          return <BlocComments value={listOfComments} />
+          
         })}
       </div>
     </div>

@@ -1,9 +1,8 @@
 .create {
-  display: flex;
   border: 3px solid $color-2;
   border-radius: 15px;
   background-color: $color-1;
-  padding: 5px;
+  margin-top: 1%;
 }
 
 .home {
@@ -14,10 +13,22 @@
   flex-direction: column;
 }
 
+.comments_post_home {
+  justify-content: center;
+  display: flex;
+  position: relative;
+  top: -3rem;
+}
+
 .home_posts {
   display: flex;
   flex-direction: column-reverse;
   margin-top: 25px;
+}
+
+.post_button_edit {
+  display: flex;
+  justify-content: center;
 }
 
 .home_post {
@@ -35,7 +46,7 @@
   border: 1px solid $color-1;
   border-radius: 5px;
   background-color: white;
-  text-align: left;
+  text-align: center;
   margin-bottom: 10px;
 }
 
