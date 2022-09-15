@@ -247,7 +247,7 @@ function Post() {
                 </div>
               </>
             )}
-            ||
+            
           </div>
         </div>
         <div className="commment_container">

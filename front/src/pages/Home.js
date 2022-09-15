@@ -10,7 +10,7 @@ import axios from 'axios';
 function Home() {
   const [showInput, setShowInput] = useState(false);
   // console.log(showInput);
-  const [CommentsOne, setCommentsInput] = useState(null);
+  const [CommentsOne, setCommentsInput] = useState();
   const [listOfPosts, setListOfPosts] = useState([]);
   // console.log(listOfPosts);
   const [listOfComments, setListOfComments] = useState([]);
@@ -61,7 +61,6 @@ function Home() {
 
       .then((res) => {
         setCommentsInput(res.data.data);
-        setListOfComments(res.data.data);
         console.log(res.data.data);
       });
   };
@@ -94,106 +93,107 @@ function Home() {
         {listOfPosts.map((value, key) => {
           return (
             <>
-            <div className="home_post" key={key}>
-              <div className="home_post_content" onClick={() => {}}>
-                {value.content}
-                <button aria-label="modifier" className="post_button_edit">
-                  <EditIcon />
-                </button>
-              </div>
-              <div className="home_post_image" onClick={() => {}}>
-                {value.image && (
-                  <>
-                    <img src={value.image} alt="illustration du post" />
-                  </>
-                )}
-              </div>
-
-              <div className="home_post_footer">
-                <div className="home_post_username">
-                  <p>{value.User.username}</p>
+              <div className="home_post" key={key}>
+                <div className="home_post_content" onClick={() => {}}>
+                  {value.content}
+                  <button aria-label="modifier" className="post_button_edit">
+                    <EditIcon />
+                  </button>
                 </div>
-
-                <div className="home_post_buttons">
-                  {(authState.id === value.userId || authState.isAdmin) && (
+                <div className="home_post_image" onClick={() => {}}>
+                  {value.image && (
                     <>
-                      <button className="post_button">
-                        <DeleteIcon
-                          className="post_button_delete"
-                          onClick={() => {
-                            deletePost(value.PostId);
-                          }}
-                        />
-                      </button>
+                      <img src={value.image} alt="illustration du post" />
                     </>
                   )}
-                  ||
+                </div>
+
+                <div className="home_post_footer">
+                  <div className="home_post_username">
+                    <p>{value.User.username}</p>
+                  </div>
+
+                  <div className="home_post_buttons">
+                    {(authState.id === value.userId || authState.isAdmin) && (
+                      <>
+                        <button className="post_button">
+                          <DeleteIcon
+                            className="post_button_delete"
+                            onClick={() => {
+                              deletePost(value.PostId);
+                            }}
+                          />
+                        </button>
+                      </>
+                    )}
+                    ||
+                  </div>
+                </div>
+                <div className="comments_post_home">
+                  <button onClick={() => clickedComments()}>
+                    <CommentIcon />
+                  </button>
                 </div>
               </div>
-              <div className="comments_post_home">
-                <button onClick={() => clickedComments()}>
-                  <CommentIcon />
-                </button>
-              </div>
-            </div>
+              <button
+                onClick={() => {
+                  setShowInput(true);
+                }}
+              ></button>
+              {showInput ? (
+                <>
+                  {listOfComments.map((CommentsOne, key) => {
+                    return (
+                      <div className="comment_container" key={key}>
+                        <div className="comment_content">
+                          {CommentsOne.comment}
+                        </div>
+
+                        <div className="comment_username_button">
+                          <p>{CommentsOne.user.comment}</p>
+                          <p>{CommentsOne.username}</p>
+                          {(authState.username !== CommentsOne.username && (
+                            <>
+                              <button
+                                className="comment_delete_button"
+                                aria-label="supprimer un commentaire"
+                                onClick={() => {
+                                  deleteComment(CommentsOne.PostId);
+                                }}
+                              >
+                                <DeleteIcon />
+                              </button>
+                            </>
+                          )) ||
+                            (authState.isAdmin === true && (
+                              <>
+                                <button
+                                  className="home_post_comment"
+                                  aria-label="ajouter un  commentaire"
+                                ></button>
+                              </>
+                            ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+
+                  <form action="" className="comment-form">
+                    <input
+                      type="text"
+                      name="text"
+                      placeholder="Laissez un commentaire..."
+                    />
+                    <input type="submit" value="envoyer" />
+                  </form>
+                </>
+              ) : (
+                ''
+              )}
             </>
           );
         })}
-
-        <button
-          onClick={() => {
-            setShowInput(true);
-          }}
-        ></button>
       </div>
-  
-      {showInput ? (
-        <>
-          {CommentsOne ? (
-            <div className="comment_container">
-              <div className="comment_content">{CommentsOne.comment}</div>
-
-              <div className="comment_username_button">
-                {/* <p>{CommentsOne.user.comment}</p>
-                <p>{CommentsOne.username}</p> */}
-                {(authState.username !== CommentsOne.username && (
-                  <>
-                    <button
-                      className="comment_delete_button"
-                      aria-label="supprimer un commentaire"
-                      onClick={() => {
-                        deleteComment(CommentsOne.PostId);
-                      }}
-                    >
-                      <DeleteIcon />
-                    </button>
-                  </>
-                )) ||
-                  (authState.isAdmin === true && (
-                    <>
-                      <button
-                        className="home_post_comment"
-                        aria-label="ajouter un  commentaire"
-                      ></button>
-                    </>
-                  ))}
-              </div>
-            </div>
-          ) : (
-            ''
-          )}
-          <form action="" className="comment-form">
-            <input
-              type="text"
-              name="text"
-              placeholder="Laissez un commentaire..."
-            />
-            <input type="submit" value="envoyer" />
-          </form>
-        </>
-      ) : (
-        ''
-      )}
     </>
   );
 }
