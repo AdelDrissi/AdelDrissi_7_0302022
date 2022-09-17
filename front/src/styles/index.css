@@ -4,7 +4,7 @@
   justify-content: center;
   background-color: #c23c21;
   box-shadow: 0px 2px 4px 2px gray;
-  width: 100vw;
+  width: 100%;
 }
 .container img {
   width: 250px;
@@ -337,12 +337,31 @@ img {
 }
 
 input {
-  width: 100%;
+  width: 98%;
   resize: none;
   border: 2px solid #c23c21;
   padding: 10px;
   font-size: 1rem;
   margin-bottom: 10px;
+}
+@media screen and (max-width: 400px) {
+  input {
+    width: 95%;
+  }
+}
+
+.input-submit {
+  width: 99%;
+  resize: none;
+  border: 2px solid #c23c21;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+@media screen and (max-width: 400px) {
+  .input-submit {
+    width: 100%;
+  }
 }
 
 .user_delete {
@@ -465,7 +484,6 @@ input {
   transition: 300ms ease-in;
 }
 .post_button .post_button_delete {
-  margin-right: 10px;
   cursor: pointer;
   color: #163972;
 }
@@ -486,7 +504,7 @@ input {
   width: 100%;
 }
 .comment_form textarea {
-  width: 100%;
+  width: 99%;
   min-height: 80px;
   resize: none;
   border-radius: 10px;
@@ -533,7 +551,7 @@ input {
   background-color: #ee9e9e;
   padding: 5px;
   margin-bottom: 5px;
-  width: 98%;
+  width: 99%;
 }
 .comment_container .comment_content {
   min-height: 50px;

@@ -18,6 +18,7 @@ function Post() {
   // console.log(post.userId);
   const [postForm, setPostForm] = useState(false);
   const [content, setContent] = useState('');
+  console.log(content);
   const [image, setImage] = useState();
   const [comments, setComments] = useState([]);
   const [newComment, setNewcomment] = useState(['']);
@@ -166,7 +167,7 @@ function Post() {
               />
             </>
           )}
-          ||
+
           {postForm === false && (
             <>
               <div className="post_content">{post.content}</div>
@@ -247,7 +248,6 @@ function Post() {
                 </div>
               </>
             )}
-            
           </div>
         </div>
         <div className="commment_container">

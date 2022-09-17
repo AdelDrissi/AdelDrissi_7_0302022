@@ -180,14 +180,29 @@ img {
 }
 
 input {
-  width: 100%;
+  width: 98%;
   resize: none;
   border: 2px solid $color-1;
   padding: 10px;
   font-size: 1rem;
   margin-bottom: 10px;
-}
 
+  @media screen and(max-width: 400px) {
+    width: 95%;
+  }
+}
+.input-submit {
+  width: 99%;
+  resize: none;
+  border: 2px solid $color-1;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 10px;
+
+  @media screen and(max-width: 400px) {
+    width: 100%;
+  }
+}
 .user_delete {
   margin-top: 10px;
   display: flex;

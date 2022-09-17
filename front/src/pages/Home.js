@@ -3,24 +3,24 @@ import EditIcon from '@mui/icons-material/Edit';
 import CommentIcon from '@mui/icons-material/Comment';
 import React, { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../helpers/authContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Create from '../components/Post/Create';
 import axios from 'axios';
 
 function Home() {
+  let { id } = useParams();
   const [showInput, setShowInput] = useState(false);
-  // console.log(showInput);
-  const [CommentsOne, setCommentsInput] = useState();
   const [listOfPosts, setListOfPosts] = useState([]);
   // console.log(listOfPosts);
   const [listOfComments, setListOfComments] = useState([]);
-  // console.log(listOfComments);
+  const [newComment, setNewcomment] = useState(['']);
+  console.log(newComment);
   // console.log(CommentsOne);
   const { authState } = useContext(AuthContext);
   let navigate = useNavigate();
 
-  const clickedComments = () => {
-    GetCommment(1);
+  const clickedComments = (id) => {
+    GetCommment(id);
     setShowInput(!showInput);
   };
 
@@ -60,8 +60,38 @@ function Home() {
       )
 
       .then((res) => {
-        setCommentsInput(res.data.data);
+        setListOfComments(res.data.data);
         console.log(res.data.data);
+      });
+  };
+
+  const userIdStorage = sessionStorage.getItem('userId');
+  const idStorage = JSON.parse(userIdStorage);
+
+  const createComment = (event) => {
+    event.preventDefault();
+    axios
+      .post(
+        `${process.env.REACT_APP_API_URL}api/comments`,
+        {
+          comment: newComment,
+          PostId: id,
+          userId: idStorage,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
+          },
+        }
+      )
+
+      .then((res) => {
+        // console.log(res);
+        if (res.data.error) {
+        } else {
+          setNewcomment(() => [res.data.comment]);
+         console.log(res.data.comment); 
+        }
       });
   };
 
@@ -75,15 +105,11 @@ function Home() {
 
   // DELETE request //
   const deleteComment = (id) => {
-    axios
-      .delete(`${process.env.REACT_APP_API_URL}api/comments/delete/${id}`, {
-        headers: {
-          authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
-        },
-      })
-      .then(() => {
-        navigate(`/home`);
-      });
+    axios.delete(`${process.env.REACT_APP_API_URL}api/comments/delete/${id}`, {
+      headers: {
+        authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
+      },
+    });
   };
 
   return (
@@ -126,39 +152,33 @@ function Home() {
                         </button>
                       </>
                     )}
-                    ||
                   </div>
                 </div>
                 <div className="comments_post_home">
-                  <button onClick={() => clickedComments()}>
+                  <button onClick={() => clickedComments(value.PostId)}>
                     <CommentIcon />
                   </button>
                 </div>
               </div>
-              <button
-                onClick={() => {
-                  setShowInput(true);
-                }}
-              ></button>
+
               {showInput ? (
                 <>
-                  {listOfComments.map((CommentsOne, key) => {
+                  {listOfComments.map((CommentsData, key) => {
                     return (
                       <div className="comment_container" key={key}>
                         <div className="comment_content">
-                          {CommentsOne.comment}
+                          {CommentsData.comment}
                         </div>
-
                         <div className="comment_username_button">
-                          <p>{CommentsOne.user.comment}</p>
-                          <p>{CommentsOne.username}</p>
-                          {(authState.username !== CommentsOne.username && (
+                          <p>{CommentsData.User.username}</p>
+                          <p>{CommentsData.username}</p>
+                          {(authState.username !== CommentsData.username && (
                             <>
                               <button
                                 className="comment_delete_button"
                                 aria-label="supprimer un commentaire"
                                 onClick={() => {
-                                  deleteComment(CommentsOne.PostId);
+                                  deleteComment(CommentsData.CommentsId);
                                 }}
                               >
                                 <DeleteIcon />
@@ -178,13 +198,22 @@ function Home() {
                     );
                   })}
 
-                  <form action="" className="comment-form">
+                  <form action="" className="comment-form hidden">
                     <input
                       type="text"
                       name="text"
                       placeholder="Laissez un commentaire..."
+                      value={newComment}
+                      onChange={(event) => {
+                        setNewcomment(event.target.value);
+                      }}
                     />
-                    <input type="submit" value="envoyer" />
+                    <input
+                      type="submit"
+                      value="envoyer"
+                      onClick={createComment}
+                      className="input-submit"
+                    />
                   </form>
                 </>
               ) : (
