@@ -18,10 +18,11 @@ function Post() {
   // console.log(post.userId);
   const [postForm, setPostForm] = useState(false);
   const [content, setContent] = useState('');
-  console.log(content);
+  // console.log(content);
   const [image, setImage] = useState();
   const [comments, setComments] = useState([]);
   const [newComment, setNewcomment] = useState(['']);
+  // console.log(newComment);
   const [isLoading, setIsLoading] = useState(true);
 
   // Declaration of the initial values ​​of the form //
@@ -55,7 +56,6 @@ function Post() {
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // console.log('post-image:', post.image, isLoading, post[0]);
   useEffect(() => {
     !isEmpty(post.image) && setIsLoading(false);
   }, [post]);
@@ -65,7 +65,7 @@ function Post() {
     axios
       .put(`${process.env.REACT_APP_API_URL}api/posts/updatePost/${id}`, data, {
         headers: {
-          JWToken: sessionStorage.getItem('JWToken'),
+          authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
         },
       })
       .then((res) => {
@@ -161,10 +161,14 @@ function Post() {
         <div className="post">
           {(authState.id === post.userId || authState.isAdmin) && (
             <>
-              <EditIcon
-                onClick={() => setPostForm(postForm)}
+              <button
+                aria-label="modifier"
                 className="post_button_edit"
-              />
+                onClick={() => updateContent(content)}
+              
+              >
+                <EditIcon />
+              </button>
             </>
           )}
 
@@ -238,14 +242,14 @@ function Post() {
             </div>
             {(authState.id === post.userId || authState.isAdmin) && (
               <>
-                <div className="post_button">
+                <button className="post_delete">
                   <DeleteIcon
                     className="post_button_delete"
                     onClick={() => {
                       deletePost(post.PostId);
                     }}
                   />
-                </div>
+                </button>
               </>
             )}
           </div>

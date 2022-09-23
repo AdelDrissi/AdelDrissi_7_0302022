@@ -3,6 +3,7 @@
   border-radius: 15px;
   background-color: $color-1;
   margin-top: 1%;
+  width: 100%;
 }
 
 .home {
@@ -35,6 +36,7 @@
   background-color: $color-1;
   border-radius: 15px;
   padding: 5px;
+  width: 99%;
   margin-bottom: 10px;
 }
 
@@ -49,19 +51,28 @@
   margin-bottom: 10px;
 }
 
+.comment-form{
+width: 101%;
+}
+
 .home_post_image {
   justify-content: center;
   align-items: center;
   display: flex;
   & img {
-    width: clamp(250px, 20vw, 500px);
+    width: clamp(300px, 20vw, 500px);
   }
 }
 
 .home_post_footer {
   display: flex;
+  background: white;
   justify-content: space-between;
   margin: 0 5px;
+  border-radius: 10px;
+  position: relative;
+  left: -5px;
+  width: 100%;
   & p {
     font-weight: bold;
     color: $color-2;

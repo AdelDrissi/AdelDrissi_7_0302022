@@ -6,7 +6,7 @@ const { Comments, Users } = require('../models');
 // Then return status 201 and the confirmation message                      //
 // If an error occurs, catch it and return status 400 and the error message //
 exports.createComment = (req, res) => {
-  // console.log(req.body);
+  console.log(req.body);
   // console.log(req);
   if (req.body.comment === null || !req.body.comment) {
     res.status(400).json({ message: 'Comment is required.' });

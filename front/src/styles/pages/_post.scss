@@ -40,9 +40,28 @@
   margin-bottom: 15px;
   margin-left: 1%;
   color: $color-2;
+  border-radius: 10px;
   &:hover {
     transform: scale(1.3);
     transition: 300ms ease-in;
+    color: #163972;
+  }
+}
+
+.create_form {
+  padding-top: 20px;
+}
+
+.create_button {
+  cursor: pointer;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 15px;
+  background-color: $color-2;
+  color: white;
+  transition: 300ms ease-out;
+  &:hover {
+    background: rgb(72, 204, 72);
   }
 }
 
@@ -71,25 +90,66 @@
   }
 }
 
+.button_comment {
+  border-radius: 10px;
+  background-color: #163972;
+  color: white;
+
+  &:hover {
+    transition: 300ms ease-in;
+    cursor: pointer;
+    color: white;
+    transform: scale(1.2);
+    transition: 300ms ease-in;
+  }
+}
+
 .post_button {
   align-items: center;
-  transform: scale(1.2);
-  .post_button_edit {
-    margin-right: 10px;
-    cursor: pointer;
-    color: rgb(72, 204, 72);
-    &:hover {
-      transform: scale(1.3);
-      transition: 300ms ease-in;
-    }
+  transform: scale(1.1);
+  color: white;
+  border-radius: 10px;
+  background-color: #163972;
+  border: none;
+  height: 30px;
+  position: relative;
+  right: 14px;
+  bottom: -3px;
+  cursor: pointer;
+  &:hover {
+    transition: 300ms ease-in;
+    transform: scale(1.3);
+    color: white;
   }
-  .post_button_delete {
-    cursor: pointer;
-    color: #163972;
-    &:hover {
-      transform: scale(1.3);
-      transition: 300ms ease-in;
-    }
+}
+
+.post_button_edit {
+  color: white;
+  background-color: #163972;
+  border: none;
+  height: 30px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.3);
+    transition: 300ms ease-in;
+    color: white;
+  }
+}
+.post_button_delete {
+  cursor: pointer;
+  color: white;
+}
+
+.post_delete {
+  height: 10%;
+  border-radius: 10px;
+  color: white;
+  background-color: #163972;
+  border: none;
+  &:hover {
+    background-color: #163972;
+    transform: scale(1.3);
+    transition: 300ms ease-in;
   }
 }
 
@@ -177,8 +237,9 @@
 
 .comment_delete_button {
   cursor: pointer;
-  color: #163972;
-  background-color: $color-3;
+  color:white;
+  background-color:#163972;
+  border-radius: 10px;
   padding: 5px;
   border: none;
   transition: 300ms ease-out;

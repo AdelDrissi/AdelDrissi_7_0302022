@@ -37,7 +37,7 @@ function User() {
     //eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // Virtual DOM //
-
+  
   return (
     <div className="user">
       <Navbar />

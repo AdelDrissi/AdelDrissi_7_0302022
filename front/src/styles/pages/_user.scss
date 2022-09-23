@@ -44,9 +44,9 @@
 img {
   margin-top: 25px;
   height: 150px;
+  padding: 1%;
   border: 3px solid $color-1;
   border-radius: 10px;
-  box-shadow: $shadow;
 }
 .user_rightside {
   display: flex;
@@ -183,12 +183,11 @@ input {
   width: 98%;
   resize: none;
   border: 2px solid $color-1;
-  padding: 10px;
   font-size: 1rem;
   margin-bottom: 10px;
 
   @media screen and(max-width: 400px) {
-    width: 95%;
+    width: 100%;
   }
 }
 .input-submit {
@@ -198,9 +197,14 @@ input {
   padding: 10px;
   font-size: 1rem;
   margin-bottom: 10px;
+  &:hover{
+    background-color:#163972;
+    color: white;
+   transition: 300ms ease-in;
+  }
 
   @media screen and(max-width: 400px) {
-    width: 100%;
+    width: 103%;
   }
 }
 .user_delete {
