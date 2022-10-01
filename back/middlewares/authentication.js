@@ -5,6 +5,11 @@ module.exports = async (req, res, next) => {
     console.log('Pas de token dans la route ' + req.originalUrl);
   } else {
     const token = req.headers.authorization.split(' ')[1];
+        if (!token) {
+          return res
+            .status(201)
+            .send("Vous n'étes pas connecter ");
+        }
     const decodedToken = jwt.verify(
       token,
       process.env.TOKEN_SECRET,
@@ -15,29 +20,25 @@ module.exports = async (req, res, next) => {
             message: 'La connexion est expriré, merci de vous reconnecter',
           };
           res.status(401).json({ message: err });
+
         } else {
           return decoded;
         }
       }
     );
 
-    const userId = decodedToken.userId;
-    if (!token) {
-      return res
-        .status(403)
-        .send("Un token est requis pour l'authentification");
-    }
-
-    
 
     try {
-      if (req.body.userId && req.body.userId !== userId) {
-        // On indique si l'id est le même => false = Id non valide
-        console.log('Pas bon');
-        return res.send(' pas le meme ID');
-      } else {
-        res.locals.decodedToken = decodedToken;
-        next();
+      if (!!decodedToken) {
+        const userId = decodedToken.userId;
+        if (req.body.userId && req.body.userId !== userId) {
+          // On indique si l'id est le même => false = Id non valide
+          console.log('Pas bon');
+          return res.send(' pas le meme ID');
+        } else {
+          res.locals.decodedToken = decodedToken;
+          next();
+        }
       }
     } catch (err) {
       (err) => res.status(400).json(err);

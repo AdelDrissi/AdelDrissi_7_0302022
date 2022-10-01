@@ -46,6 +46,14 @@ ul {
   margin: 5px;
   background-color: white;
   border-radius: 10px;
+  box-shadow: 0 0 1px 2px;
+  margin: 10px;
+}
+
+.navbar-icons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .navbar_welcome {
@@ -102,9 +110,11 @@ ul {
 }
 
 .home_post_content {
-  cursor: pointer;
   width: 100%;
   min-height: 50px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
   border: 1px solid #c23c21;
   border-radius: 5px;
   background-color: white;
@@ -349,15 +359,11 @@ img {
 
 input {
   width: 98%;
+  padding-left: 10px;
   resize: none;
   border: 2px solid #c23c21;
   font-size: 1rem;
   margin-bottom: 10px;
-}
-@media screen and (max-width: 400px) {
-  input {
-    width: 100%;
-  }
 }
 
 .input-submit {
@@ -422,12 +428,16 @@ input {
   padding: 5px;
   margin-top: 25px;
   margin-bottom: 10px;
-  width: 100%;
+  width: 99%;
 }
 @media screen and (max-width: 768px) {
   .post {
-    width: 100vw;
+    width: 98%;
   }
+}
+
+.button-done {
+  display: none;
 }
 
 .post_content {
@@ -435,9 +445,7 @@ input {
   width: 100%;
   border: 1px solid #c23c21;
   border-radius: 5px;
-  background-color: white;
   text-align: center;
-  padding: 10px;
   margin-bottom: 10px;
 }
 @media screen and (max-width: 768px) {
@@ -446,23 +454,24 @@ input {
   }
 }
 
-.post_button_edit {
-  cursor: pointer;
-  display: flex;
-  align-self: flex-end;
-  margin-bottom: 15px;
-  margin-left: 1%;
-  color: #163972;
-  border-radius: 10px;
+.content-post {
+  width: 30%;
 }
-.post_button_edit:hover {
-  transform: scale(1.3);
-  transition: 300ms ease-in;
-  color: #163972;
+@media screen and (max-width: 768px) {
+  .content-post {
+    width: 37%;
+  }
+}
+@media screen and (max-width: 400px) {
+  .content-post {
+    width: 44%;
+  }
 }
 
 .create_form {
   padding-top: 20px;
+  display: flex;
+  padding: 10px;
 }
 
 .create_button {
@@ -508,6 +517,7 @@ input {
   border-radius: 10px;
   background-color: #163972;
   color: white;
+  border: none;
 }
 .button_comment:hover {
   transition: 300ms ease-in;
@@ -526,7 +536,7 @@ input {
   border: none;
   height: 30px;
   position: relative;
-  right: 14px;
+  right: 2%;
   bottom: -3px;
   cursor: pointer;
 }
@@ -535,18 +545,33 @@ input {
   transform: scale(1.3);
   color: white;
 }
+@media screen and (max-width: 400px) {
+  .post_button {
+    position: relative;
+    left: 0%;
+  }
+}
 
 .post_button_edit {
   color: white;
   background-color: #163972;
   border: none;
   height: 30px;
+  position: relative;
+  left: 43%;
+  border-radius: 10px;
   cursor: pointer;
 }
 .post_button_edit:hover {
   transform: scale(1.3);
   transition: 300ms ease-in;
   color: white;
+}
+@media screen and (max-width: 768px) {
+  .post_button_edit {
+    position: relative;
+    left: 30%;
+  }
 }
 
 .post_button_delete {
@@ -556,6 +581,8 @@ input {
 
 .post_delete {
   height: 10%;
+  position: relative;
+  right: 10px;
   border-radius: 10px;
   color: white;
   background-color: #163972;
@@ -576,7 +603,7 @@ input {
   border-radius: 15px;
   padding: 5px;
   margin-bottom: 10px;
-  width: 100%;
+  width: 99%;
 }
 .comment_form textarea {
   width: 99%;

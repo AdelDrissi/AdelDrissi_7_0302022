@@ -31,6 +31,7 @@ function Navbar() {
             Bienvenue {authState.username} !
           </span>
         </div>
+        <div className='navbar-icons'> 
         <NavLink to={'/home'} aria-label="retour accueil">
           <AddToHomeScreenIcon
             aria-label="bouton accueil"
@@ -52,7 +53,8 @@ function Navbar() {
           aria-label="bouton post_create"
           className="navbar_icon"
         />
-        <Signout />
+        <Signout/>
+        </div>
       </div>
     </nav>
   );

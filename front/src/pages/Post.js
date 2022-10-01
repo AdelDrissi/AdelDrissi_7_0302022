@@ -5,7 +5,6 @@ import axios from 'axios';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Navbar from '../components/Navbar';
 import { Formik, Form, Field } from 'formik';
-import EditIcon from '@mui/icons-material/Edit';
 import { isEmpty } from '../components/Routes/Utils';
 import DoneIcon from '@mui/icons-material/Done';
 import { AuthContext } from '../helpers/authContext';
@@ -18,7 +17,8 @@ function Post() {
   // console.log(post.userId);
   const [postForm, setPostForm] = useState(false);
   const [content, setContent] = useState('');
-  // console.log(content);
+  const [content_posts, setContentPost] = useState('');
+  console.log(content_posts);
   const [image, setImage] = useState();
   const [comments, setComments] = useState([]);
   const [newComment, setNewcomment] = useState(['']);
@@ -61,7 +61,8 @@ function Post() {
   }, [post]);
 
   // PUT request //
-  const updateContent = (data) => {
+  const handleUpdatePostText = (data) => {
+    console.log(data);
     axios
       .put(`${process.env.REACT_APP_API_URL}api/posts/updatePost/${id}`, data, {
         headers: {
@@ -70,7 +71,6 @@ function Post() {
       })
       .then((res) => {
         setContent(res.data.content);
-        window.location.replace(`/post/${id}`);
       });
   };
 
@@ -86,7 +86,7 @@ function Post() {
         },
       })
       .then(() => {
-        window.location.replace(`/post/${id}`);
+        navigate(`/post/${id}`);
       });
   };
 
@@ -159,22 +159,33 @@ function Post() {
       <Navbar />
       <div className="post_container">
         <div className="post">
-          {(authState.id === post.userId || authState.isAdmin) && (
-            <>
-              <button
-                aria-label="modifier"
-                className="post_button_edit"
-                onClick={() => updateContent(content)}
-              
-              >
-                <EditIcon />
-              </button>
-            </>
-          )}
-
+          {(authState.id === post.userId || authState.isAdmin) && <></>}
           {postForm === false && (
             <>
-              <div className="post_content">{post.content}</div>
+              <div className="post_content">
+                <Formik initialValues={initialValues}>
+                  <Form>
+                    <Field
+                      as="textarea"
+                      aria-label="content"
+                      name="content_post"
+                      className="content_posts"
+                      placeholder={post.content}
+                      autoComplete="off"
+                      onChange={(event) => {
+                        setContentPost(event.target.value);
+                      }}
+                    />
+                    <button
+                      type="submit"
+                      aria-label="modifier"
+                      className="button-done"
+                    >
+                      <DoneIcon />
+                    </button>
+                  </Form>
+                </Formik>
+              </div>
               <div className="post_image">
                 {post.image && (
                   <>
@@ -190,7 +201,7 @@ function Post() {
                 <>
                   <Formik
                     initialValues={initialValues}
-                    onSubmit={updateContent}
+                    onSubmit={handleUpdatePostText}
                   >
                     <Form className="create_form">
                       <Field

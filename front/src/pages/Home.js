@@ -3,17 +3,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import CommentIcon from '@mui/icons-material/Comment';
 import React, { useEffect, useState, useContext } from 'react';
 import { AuthContext } from '../helpers/authContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Create from '../components/Post/Create';
 import axios from 'axios';
 
 function Home() {
+  let { id } = useParams();
   const [showInput, setShowInput] = useState(false);
   const [listOfPosts, setListOfPosts] = useState([]);
-  const [listOfComments, setListOfComments] = useState([]);
+  let [listOfComments, setListOfComments] = useState([]);
   const { authState } = useContext(AuthContext);
   const [newComment, setNewcomment] = useState(['']);
-  console.log(newComment);
   let navigate = useNavigate();
 
   const clickedComments = (id) => {
@@ -24,7 +24,6 @@ function Home() {
   };
 
   // Declaration of the initial values ​​of the form //
-  
 
   // Executes this function immediately when the page the page is opened //
   useEffect(() => {
@@ -67,7 +66,6 @@ function Home() {
       });
   };
 
-
   const userIdStorage = sessionStorage.getItem('userId');
   const idStorage = JSON.parse(userIdStorage);
 
@@ -95,7 +93,6 @@ function Home() {
         }
       });
     GetCommment(event.target.id);
-    listOfComments = listOfComments;
   };
 
   const deletePost = (id) => {
@@ -115,6 +112,19 @@ function Home() {
     });
   };
 
+  const updateContent = (data, postId) => {
+    axios
+      .put(`${process.env.REACT_APP_API_URL}api/posts/updatePost/${id}`, data, {
+        headers: {
+          authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
+        },
+      })
+
+      .then(() => {
+        navigate(`/post/${postId}`);
+      });
+  };
+
   return (
     <>
       <Create />
@@ -123,8 +133,14 @@ function Home() {
           return (
             <>
               <div className="home_post" key={key}>
-                <div className="home_post_content" onClick={() => {}}>
+                <div
+                  className="home_post_content"
+                  onClick={() => {
+                    updateContent(value.content, value.PostId);
+                  }}
+                >
                   {value.content}
+
                   <button aria-label="modifier" className="post_button_edit">
                     <EditIcon />
                   </button>

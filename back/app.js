@@ -16,6 +16,7 @@ const req = require('express/lib/request');
 var corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200,
+  
 };
 
 // Call the necessary dependencies //

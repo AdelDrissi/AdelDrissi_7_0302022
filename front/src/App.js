@@ -5,6 +5,7 @@ import axios from 'axios';
 import Routes from './components/Routes';
 import Header from './components/Header';
 
+
 function App() {
   const [authState, setAuthState] = useState({
     id: 0,
@@ -20,7 +21,8 @@ function App() {
   // Else changes the authState to true                        //
 
   useEffect(() => {
-    axios({
+   if (sessionStorage.getItem('JWToken')) { 
+     axios({
       method: 'get',
       url: `${process.env.REACT_APP_API_URL}api/sign/auth`,
       headers: {
@@ -38,20 +40,21 @@ function App() {
           image: res.data.image,
           isAdmin: res.data.isAdmin,
         });
-        // console.log(res);
       }
     });
+  }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Virtual DOM //
-
   return (
     <div className="App">
+   
       <AuthContext.Provider value={{ authState, setAuthState }}>
         <Header />
         <Routes />
       </AuthContext.Provider>
+    
     </div>
   );
 }

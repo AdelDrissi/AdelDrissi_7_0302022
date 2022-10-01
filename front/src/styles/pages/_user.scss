@@ -181,14 +181,11 @@ img {
 
 input {
   width: 98%;
+  padding-left: 10px;
   resize: none;
   border: 2px solid $color-1;
   font-size: 1rem;
   margin-bottom: 10px;
-
-  @media screen and(max-width: 400px) {
-    width: 100%;
-  }
 }
 .input-submit {
   width: 99%;
@@ -197,10 +194,10 @@ input {
   padding: 10px;
   font-size: 1rem;
   margin-bottom: 10px;
-  &:hover{
-    background-color:#163972;
+  &:hover {
+    background-color: #163972;
     color: white;
-   transition: 300ms ease-in;
+    transition: 300ms ease-in;
   }
 
   @media screen and(max-width: 400px) {
