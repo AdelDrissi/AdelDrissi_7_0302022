@@ -14,7 +14,6 @@ function Post() {
   let navigate = useNavigate();
   const { authState } = useContext(AuthContext);
   const [post, setPost] = useState([]);
-  // console.log(post.userId);
   const [postForm, setPostForm] = useState(false);
   const [content, setContent] = useState('');
   const [content_posts, setContentPost] = useState('');
@@ -22,7 +21,6 @@ function Post() {
   const [image, setImage] = useState();
   const [comments, setComments] = useState([]);
   const [newComment, setNewcomment] = useState(['']);
-  // console.log(newComment);
   const [isLoading, setIsLoading] = useState(true);
 
   // Declaration of the initial values ​​of the form //
@@ -61,8 +59,8 @@ function Post() {
   }, [post]);
 
   // PUT request //
+
   const handleUpdatePostText = (data) => {
-    console.log(data);
     axios
       .put(`${process.env.REACT_APP_API_URL}api/posts/updatePost/${id}`, data, {
         headers: {
@@ -71,6 +69,7 @@ function Post() {
       })
       .then((res) => {
         setContent(res.data.content);
+        window.location.replace(`/post/${id}`);
       });
   };
 
@@ -86,7 +85,7 @@ function Post() {
         },
       })
       .then(() => {
-        navigate(`/post/${id}`);
+        window.location.replace(`/post/${id}`);
       });
   };
 
@@ -104,7 +103,6 @@ function Post() {
         navigate('/home');
       });
   };
-
   // Makes a POST request to add a new comment to this post //
   // Checks if the user has a valid token                   //
   // Returns the response as a new comment                  //

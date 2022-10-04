@@ -2,7 +2,6 @@
 import React, { useContext } from 'react';
 import AddToHomeScreenIcon from '@mui/icons-material/AddToHomeScreen';
 import PersonIcon from '@mui/icons-material/Person';
-import LocalPostOfficeIcon from '@mui/icons-material/LocalPostOffice';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 import { NavLink } from 'react-router-dom';
 import Signout from './Sign/Signout';
@@ -13,9 +12,6 @@ function Navbar() {
   const { authState } = useContext(AuthContext);
   const profil = () => {
     window.location = `/user/${authState.id}`;
-  };
-  const Post = () => {
-    window.location.replace(`/post/${authState.id}`);
   };
 
   const CreatePost = () => {
@@ -43,11 +39,7 @@ function Navbar() {
           aria-label="bouton profil"
           className="navbar_icon"
         />
-        <LocalPostOfficeIcon
-          onClick={Post}
-          aria-label="bouton post"
-          className="navbar_icon"
-        />
+     
         <PostAddIcon
           onClick={CreatePost}
           aria-label="bouton post_create"

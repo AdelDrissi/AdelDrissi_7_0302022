@@ -5,7 +5,7 @@ const cors = require('cors');
 const path = require('path');
 const db = require('./models');
 
-db.sequelize.sync({ alter: true });
+db.sequelize.sync({});
 
 const userRouter = require('./routes/users');
 const postsRouter = require('./routes/posts');

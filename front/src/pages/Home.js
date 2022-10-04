@@ -43,7 +43,11 @@ function Home() {
           },
         })
         .then((res) => {
-          setListOfPosts(res.data.listOfPosts);
+          const dataList = res.data.listOfPosts;
+          dataList.forEach((el, i) => (el.id = i + 1));
+          console.log(dataList);
+
+          setListOfPosts(dataList);
         });
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -59,6 +63,12 @@ function Home() {
           },
         }
       )
+
+      // .then((res) => {
+      //   const dataList = res.data.data;
+      //   dataList.forEach((el, i) => (el.id = i + 1));
+      //   setListOfComments(dataList);
+      // });
 
       .then((res) => {
         setListOfComments(res.data.data);
@@ -105,11 +115,15 @@ function Home() {
 
   // DELETE request //
   const deleteComment = (id) => {
-    axios.delete(`${process.env.REACT_APP_API_URL}api/comments/delete/${id}`, {
-      headers: {
-        authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
-      },
-    });
+    axios
+      .delete(`${process.env.REACT_APP_API_URL}api/comments/delete/${id}`, {
+        headers: {
+          authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
+        },
+      })
+      .then(() => {
+        window.location.replace(`/home`);
+      });
   };
 
   const updateContent = (data, postId) => {
