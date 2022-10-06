@@ -23,7 +23,7 @@ function Create() {
         },
       })
       .then(() => {
-        window.location.replace('/home');
+        window.location.reload('/home');
       });
   };
 

@@ -69,7 +69,7 @@ function Post() {
       })
       .then((res) => {
         setContent(res.data.content);
-        window.location.replace(`/post/${id}`);
+        window.location.reload(`/post/${id}`);
       });
   };
 
@@ -85,7 +85,7 @@ function Post() {
         },
       })
       .then(() => {
-        window.location.replace(`/post/${id}`);
+        window.location.reload(`/post/${id}`);
       });
   };
 

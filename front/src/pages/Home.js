@@ -122,7 +122,7 @@ function Home() {
         },
       })
       .then(() => {
-        window.location.replace(`/home`);
+        window.location.reload(`/home`);
       });
   };
 
@@ -146,46 +146,47 @@ function Home() {
         {listOfPosts.map((value, key) => {
           return (
             <>
-              <div className="home_post" key={key}>
-                <div
-                  className="home_post_content"
-                  onClick={() => {
-                    updateContent(value.content, value.PostId);
-                  }}
-                >
-                  {value.content}
+              <div className="id_post" key={`post_id${key}`}>
+                <div className="home_post" key={key}>
+                  <div
+                    className="home_post_content"
+                    onClick={() => {
+                      updateContent(value.content, value.PostId);
+                    }}
+                  >
+                    {value.content}
 
-                  <button aria-label="modifier" className="post_button_edit">
-                    <EditIcon />
-                  </button>
-                </div>
-                <div className="home_post_image" onClick={() => {}}>
-                  {value.image && (
-                    <>
-                      <img src={value.image} alt="illustration du post" />
-                    </>
-                  )}
-                </div>
-
-                <div className="home_post_footer">
-                  <div className="home_post_username">
-                    <p>{value.User.username}</p>
+                    <button aria-label="modifier" className="post_button_edit">
+                      <EditIcon />
+                    </button>
+                  </div>
+                  <div className="home_post_image" onClick={() => {}}>
+                    {value.image && (
+                      <>
+                        <img src={value.image} alt="illustration du post" />
+                      </>
+                    )}
                   </div>
 
-                  {(authState.id === value.userId || authState.isAdmin) && (
-                    <>
-                      <button className="post_button">
-                        <DeleteIcon
-                          className="post_button_delete"
-                          onClick={() => {
-                            deletePost(value.PostId);
-                          }}
-                        />
-                      </button>
-                    </>
-                  )}
-                </div>
+                  <div className="home_post_footer">
+                    <div className="home_post_username">
+                      <p>{value.User.username}</p>
+                    </div>
 
+                    {(authState.id === value.userId || authState.isAdmin) && (
+                      <>
+                        <button className="post_button">
+                          <DeleteIcon
+                            className="post_button_delete"
+                            onClick={() => {
+                              deletePost(value.PostId);
+                            }}
+                          />
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
                 <div className="comments_post_home">
                   <button
                     className="button_comment"
@@ -202,33 +203,36 @@ function Home() {
                     .filter((comment) => comment.PostId === value.PostId)
                     .map((CommentsData, key) => {
                       return (
-                        <div className="comment_container" key={key}>
-                          <div className="comment_content">
-                            {CommentsData.comment}
-                          </div>
-                          <div className="comment_username_button">
-                            <p>{CommentsData.User.username}</p>
-                            {(authState.username !== CommentsData.username && (
-                              <>
-                                <button
-                                  className="comment_delete_button"
-                                  aria-label="supprimer un commentaire"
-                                  onClick={() => {
-                                    deleteComment(CommentsData.CommentsId);
-                                  }}
-                                >
-                                  <DeleteIcon />
-                                </button>
-                              </>
-                            )) ||
-                              (authState.isAdmin === true && (
+                        <div className="id" key={`post${key}`}>
+                          <div className="comment_container" key={key}>
+                            <div className="comment_content">
+                              {CommentsData.comment}
+                            </div>
+                            <div className="comment_username_button">
+                              <p>{CommentsData.User.username}</p>
+                              {(authState.username !==
+                                CommentsData.username && (
                                 <>
                                   <button
-                                    className="home_post_comment"
-                                    aria-label="ajouter un  commentaire"
-                                  ></button>
+                                    className="comment_delete_button"
+                                    aria-label="supprimer un commentaire"
+                                    onClick={() => {
+                                      deleteComment(CommentsData.CommentsId);
+                                    }}
+                                  >
+                                    <DeleteIcon />
+                                  </button>
                                 </>
-                              ))}
+                              )) ||
+                                (authState.isAdmin === true && (
+                                  <>
+                                    <button
+                                      className="home_post_comment"
+                                      aria-label="ajouter un  commentaire"
+                                    ></button>
+                                  </>
+                                ))}
+                            </div>
                           </div>
                         </div>
                       );

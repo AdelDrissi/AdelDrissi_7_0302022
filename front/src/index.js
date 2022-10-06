@@ -5,8 +5,6 @@ import App from './App';
 
 // Virtual DOM //
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <App />,
   document.getElementById('root')
 );
