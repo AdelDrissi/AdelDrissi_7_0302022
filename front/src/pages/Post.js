@@ -14,7 +14,6 @@ function Post() {
   let navigate = useNavigate();
   const { authState } = useContext(AuthContext);
   const [post, setPost] = useState([]);
-  const [postForm, setPostForm] = useState(false);
   const [content, setContent] = useState('');
   const [content_posts, setContentPost] = useState('');
   console.log(content_posts);
@@ -158,7 +157,7 @@ function Post() {
       <div className="post_container">
         <div className="post">
           {(authState.id === post.userId || authState.isAdmin) && <></>}
-          {postForm === false && (
+          {
             <>
               <div className="post_content">
                 <Formik initialValues={initialValues}>
@@ -192,54 +191,54 @@ function Post() {
                 )}
               </div>
             </>
-          )}
-          {isLoading
-            ? ''
-            : !postForm && (
-                <>
-                  <Formik
-                    initialValues={initialValues}
-                    onSubmit={handleUpdatePostText}
+          }
+          {isLoading ? (
+            ''
+          ) : (
+            <>
+              <Formik
+                initialValues={initialValues}
+                onSubmit={handleUpdatePostText}
+              >
+                <Form className="create_form">
+                  <Field
+                    as="textarea"
+                    aria-label="modifiez votre publication"
+                    name="content"
+                    placeholder={post.content}
+                    autoComplete="off"
+                  />
+                  <button
+                    className="create_button"
+                    type="submit"
+                    aria-label="valider"
                   >
-                    <Form className="create_form">
-                      <Field
-                        as="textarea"
-                        aria-label="modifiez votre publication"
-                        name="content"
-                        placeholder={post.content}
-                        autoComplete="off"
-                      />
-                      <button
-                        className="create_button"
-                        type="submit"
-                        aria-label="valider"
-                      >
-                        Modifiez votre publication
-                      </button>
-                    </Form>
-                  </Formik>
-                  <form className="create_form" onSubmit={updateImage}>
-                    <input
-                      type="file"
-                      id="image"
-                      name="image"
-                      accept=".jpeg, .jpg, .png, .gif, .webp"
-                      onChange={(event) => setImage(event.target.files[0])}
-                      aria-label="ajouter une image"
-                    />
-                    <br />
-                    <button
-                      className="create_button"
-                      type="submit"
-                      aria-label="valider"
-                    >
-                      Modifiez votre image
-                    </button>
-                  </form>
+                    Modifiez votre publication
+                  </button>
+                </Form>
+              </Formik>
+              <form className="create_form" onSubmit={updateImage}>
+                <input
+                  type="file"
+                  id="image"
+                  name="image"
+                  accept=".jpeg, .jpg, .png, .gif, .webp"
+                  onChange={(event) => setImage(event.target.files[0])}
+                  aria-label="ajouter une image"
+                />
+                <br />
+                <button
+                  className="create_button"
+                  type="submit"
+                  aria-label="valider"
+                >
+                  Modifiez votre image
+                </button>
+              </form>
 
-                  <div className="post_image">{post.image && <></>}</div>
-                </>
-              )}
+              <div className="post_image">{post.image && <></>}</div>
+            </>
+          )}
           <div className="post_footer">
             <div
               className="post_username"

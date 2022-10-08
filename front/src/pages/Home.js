@@ -13,13 +13,13 @@ function Home() {
   const [listOfPosts, setListOfPosts] = useState([]);
   let [listOfComments, setListOfComments] = useState([]);
   const { authState } = useContext(AuthContext);
-  const [newComment, setNewcomment] = useState(['']);
+
+  const [newComment, setNewcomment] = useState('');
   let navigate = useNavigate();
 
   const clickedComments = (id) => {
     GetCommment(id);
     setShowInput(!showInput);
-
     document.getElementById('form');
   };
 
@@ -43,11 +43,11 @@ function Home() {
           },
         })
         .then((res) => {
-          const dataList = res.data.listOfPosts;
-          dataList.forEach((el, i) => (el.id = i + 1));
-          console.log(dataList);
+          // const dataList = res.data.listOfPosts;
+          // dataList.forEach((el, i) => (el.id = i + 1));
+          // console.log(dataList);
 
-          setListOfPosts(dataList);
+          setListOfPosts(res.data.listOfPosts);
         });
     }
     //eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,12 +97,9 @@ function Home() {
       )
 
       .then((res) => {
-        if (res.data.error) {
-        } else {
-          setNewcomment(() => [res.data.comment]);
-        }
+        setNewcomment('');
+        GetCommment(event.target.id);
       });
-    GetCommment(event.target.id);
   };
 
   const deletePost = (id) => {
@@ -145,48 +142,47 @@ function Home() {
       <div className="home_posts">
         {listOfPosts.map((value, key) => {
           return (
-            <>
-              <div className="id_post" key={`post_id${key}`}>
-                <div className="home_post" key={key}>
-                  <div
-                    className="home_post_content"
-                    onClick={() => {
-                      updateContent(value.content, value.PostId);
-                    }}
-                  >
-                    {value.content}
+            <div className="id" key={`post${key}`}>
+              <div className="home_post">
+                <div
+                  className="home_post_content"
+                  onClick={() => {
+                    updateContent(value.content, value.PostId);
+                  }}
+                >
+                  {value.content}
 
-                    <button aria-label="modifier" className="post_button_edit">
-                      <EditIcon />
-                    </button>
-                  </div>
-                  <div className="home_post_image" onClick={() => {}}>
-                    {value.image && (
-                      <>
-                        <img src={value.image} alt="illustration du post" />
-                      </>
-                    )}
-                  </div>
-
-                  <div className="home_post_footer">
-                    <div className="home_post_username">
-                      <p>{value.User.username}</p>
-                    </div>
-
-                    {(authState.id === value.userId || authState.isAdmin) && (
-                      <>
-                        <button className="post_button">
-                          <DeleteIcon
-                            className="post_button_delete"
-                            onClick={() => {
-                              deletePost(value.PostId);
-                            }}
-                          />
-                        </button>
-                      </>
-                    )}
-                  </div>
+                  <button aria-label="modifier" className="post_button_edit">
+                    <EditIcon />
+                  </button>
                 </div>
+                <div className="home_post_image" onClick={() => {}}>
+                  {value.image && (
+                    <>
+                      <img src={value.image} alt="illustration du post" />
+                    </>
+                  )}
+                </div>
+
+                <div className="home_post_footer">
+                  <div className="home_post_username">
+                    <p>{value.User.username}</p>
+                  </div>
+
+                  {(authState.id === value.userId || authState.isAdmin) && (
+                    <>
+                      <button className="post_button">
+                        <DeleteIcon
+                          className="post_button_delete"
+                          onClick={() => {
+                            deletePost(value.PostId);
+                          }}
+                        />
+                      </button>
+                    </>
+                  )}
+                </div>
+
                 <div className="comments_post_home">
                   <button
                     className="button_comment"
@@ -203,36 +199,36 @@ function Home() {
                     .filter((comment) => comment.PostId === value.PostId)
                     .map((CommentsData, key) => {
                       return (
-                        <div className="id" key={`post${key}`}>
-                          <div className="comment_container" key={key}>
-                            <div className="comment_content">
-                              {CommentsData.comment}
-                            </div>
-                            <div className="comment_username_button">
-                              <p>{CommentsData.User.username}</p>
-                              {(authState.username !==
-                                CommentsData.username && (
+                        <div
+                          className="comment_container"
+                          key={`post_id${key}`}
+                        >
+                          <div className="comment_content">
+                            {CommentsData.comment}
+                          </div>
+                          <div className="comment_username_button">
+                            <p>{CommentsData.User.username}</p>
+                            {(authState.username !== CommentsData.username && (
+                              <>
+                                <button
+                                  className="comment_delete_button"
+                                  aria-label="supprimer un commentaire"
+                                  onClick={() => {
+                                    deleteComment(CommentsData.CommentsId);
+                                  }}
+                                >
+                                  <DeleteIcon />
+                                </button>
+                              </>
+                            )) ||
+                              (authState.isAdmin === true && (
                                 <>
                                   <button
-                                    className="comment_delete_button"
-                                    aria-label="supprimer un commentaire"
-                                    onClick={() => {
-                                      deleteComment(CommentsData.CommentsId);
-                                    }}
-                                  >
-                                    <DeleteIcon />
-                                  </button>
+                                    className="home_post_comment"
+                                    aria-label="ajouter un  commentaire"
+                                  ></button>
                                 </>
-                              )) ||
-                                (authState.isAdmin === true && (
-                                  <>
-                                    <button
-                                      className="home_post_comment"
-                                      aria-label="ajouter un  commentaire"
-                                    ></button>
-                                  </>
-                                ))}
-                            </div>
+                              ))}
                           </div>
                         </div>
                       );
@@ -241,6 +237,7 @@ function Home() {
                     <input
                       type="text"
                       name="text"
+                      value={newComment}
                       placeholder="Laissez un commentaire..."
                       onChange={(event) => {
                         setNewcomment(event.target.value);
@@ -258,7 +255,7 @@ function Home() {
               ) : (
                 ''
               )}
-            </>
+            </div>
           );
         })}
       </div>
