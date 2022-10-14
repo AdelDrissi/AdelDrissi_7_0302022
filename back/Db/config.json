@@ -1,9 +1,9 @@
 {
   "development": {
     "username": "root",
-    "password": "Boubou91480",
+    "password": "root",
     "database": "Groupomania",
-    "host": "127.0.0.1",
+    "host": "localhost",
     "dialect": "mysql",
     "port": "3306"
   }

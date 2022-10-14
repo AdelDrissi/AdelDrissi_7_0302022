@@ -108,6 +108,7 @@ function Home() {
         authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
       },
     });
+     window.location.reload(`/home`);
   };
 
   // DELETE request //

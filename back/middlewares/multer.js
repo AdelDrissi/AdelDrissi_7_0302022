@@ -27,12 +27,19 @@ const storage = multer.diskStorage({
     callback(null, 'image');
   },
   filename: (req, file, callback) => {
-    const name = file.originalname.split(' ').join('_');
+    const name = file.originalname.split(' ')[0].split(' ').join('_');
     const extension = MIME_TYPES[file.mimetype];
-    callback(null, name + Date.now() + '.' + extension);
+    const today = new Date();
+    callback(
+      null,
+      name.split('.')[0] +
+        '_' +
+        today.toLocaleDateString('fr').replaceAll('/', '_') +
+        '.' +
+        extension
+    );
   },
 });
 // Export multer configuration by indicating to manage a single image type file //
 const upload = multer({ imageFilter: imageFilter, storage: storage });
 module.exports = upload;
-
