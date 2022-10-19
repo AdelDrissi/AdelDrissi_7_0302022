@@ -15,13 +15,13 @@ exports.createComment = (req, res) => {
     // console.log(req.body.comment);
     const userId = req.body.userId;
     // console.log(req.body.userId);
-    const Content = req.body.content;
+    const content = req.body.content;
     const PostId = req.body.PostId;
     Comments.create({
       comment: comment,
       userId: userId,
       PostId: Number(PostId),
-      content: Content,
+      content: content,
     })
       .then((comment) => {
         console.log(comment);
