@@ -108,7 +108,7 @@ function Home() {
         authorization: `Bearer ${sessionStorage.getItem('JWToken')}`,
       },
     });
-     window.location.reload(`/home`);
+    window.location.reload(`/home`);
   };
 
   // DELETE request //
@@ -172,7 +172,7 @@ function Home() {
 
                   {(authState.id === value.userId || authState.isAdmin) && (
                     <>
-                      <button className="post_button">
+                      <button aria-label="delete" className="post_button">
                         <DeleteIcon
                           className="post_button_delete"
                           onClick={() => {
@@ -186,6 +186,7 @@ function Home() {
 
                 <div className="comments_post_home">
                   <button
+                    aria-label="commentaire"
                     className="button_comment"
                     onClick={() => clickedComments(value.PostId)}
                   >

@@ -8,6 +8,7 @@
 }
 .container img {
   width: 250px;
+  height: 100%;
   padding: 15px;
 }
 
@@ -130,9 +131,6 @@ ul {
   justify-content: center;
   align-items: center;
   display: flex;
-}
-.home_post_image img {
-  width: clamp(300px, 20vw, 500px);
 }
 
 .home_post_footer {

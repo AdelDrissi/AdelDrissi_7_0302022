@@ -61,9 +61,6 @@
   justify-content: center;
   align-items: center;
   display: flex;
-  & img {
-    width: clamp(300px, 20vw, 500px);
-  }
 }
 
 .home_post_footer {
