@@ -36,7 +36,7 @@
   padding: 0px 25px 25px 25px;
   background-color: $color-1;
   box-shadow: $shadow;
-  @media screen and(max-width: 980px) {
+  @media screen and ( max-width: 980px) {
     margin-bottom: 10px;
   }
 }
@@ -56,7 +56,7 @@ img {
     text-align: center;
     margin-bottom: 15px;
   }
-  @media screen and(max-width: 400px) {
+  @media screen and ( max-width: 400px) {
     margin-top: 5px;
   }
 }
@@ -71,10 +71,10 @@ img {
   box-shadow: $shadow;
   padding: 5px;
   height: 100%;
-  @media screen and(max-width: 768px) {
+  @media screen and ( max-width: 768px) {
     flex-direction: column;
   }
-  @media screen and(max-width: 400px) {
+  @media screen and ( max-width: 400px) {
     margin: 0;
   }
 
@@ -85,7 +85,7 @@ img {
     text-align: left;
     min-width: 400px;
     padding: 15px;
-    @media screen and(max-width: 768px) {
+    @media screen and ( max-width: 768px) {
       min-width: 280px;
       margin-bottom: 10px;
     }
@@ -94,7 +94,7 @@ img {
   .user_email_password {
     display: flex;
     justify-content: space-between;
-    @media screen and(max-width: 768px) {
+    @media screen and ( max-width: 768px) {
       flex-direction: column;
     }
   }
@@ -110,10 +110,10 @@ img {
   border-radius: 10px;
   background-color: $color-1;
   box-shadow: $shadow;
-  @media screen and(max-width: 768px) {
+  @media screen and ( max-width: 768px) {
     width: 100%;
   }
-  @media screen and(max-width: 400px) {
+  @media screen and ( max-width: 400px) {
     margin-top: 5px;
     margin-bottom: 0px;
   }
@@ -159,7 +159,7 @@ img {
   padding: 25px;
   box-shadow: $shadow;
 
-  @media screen and(max-width: 400px) {
+  @media screen and ( max-width: 400px) {
     margin-top: 5px;
   }
   & button {
@@ -200,7 +200,7 @@ input {
     transition: 300ms ease-in;
   }
 
-  @media screen and(max-width: 400px) {
+  @media screen and ( max-width: 400px) {
     width: 103%;
   }
 }
