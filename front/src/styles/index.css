@@ -6,7 +6,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #c23c21;
   box-shadow: 0px 2px 4px 2px gray;
   width: 100%;
 }
@@ -211,7 +210,6 @@ img {
   margin-top: 25px;
   height: 150px;
   padding: 1%;
-  border: 3px solid #c23c21;
   border-radius: 10px;
 }
 
